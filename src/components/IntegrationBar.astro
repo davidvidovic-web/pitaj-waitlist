@@ -2,14 +2,14 @@
 import { Icon } from 'astro-icon/components';
 
 const integrations = [
-  { name: 'Website Popup', icon: 'lucide:globe', color: '#2563eb', bg: 'bg-blue-50/80 border-blue-100 text-blue-600' },
-  { name: 'WhatsApp', icon: 'simple-icons:whatsapp', color: '#25D366', bg: 'bg-emerald-50/80 border-emerald-100 text-[#25D366]' },
-  { name: 'Instagram', icon: 'simple-icons:instagram', color: '#E4405F', bg: 'bg-pink-50/80 border-pink-100 text-[#E4405F]' },
-  { name: 'Facebook', icon: 'simple-icons:facebook', color: '#1877F2', bg: 'bg-blue-50/80 border-blue-100 text-[#1877F2]' },
-  { name: 'Messenger', icon: 'simple-icons:messenger', color: '#0084FF', bg: 'bg-sky-50/80 border-sky-100 text-[#0084FF]' },
-  { name: 'Viber', icon: 'simple-icons:viber', color: '#7360F2', bg: 'bg-purple-50/80 border-purple-100 text-[#7360F2]' },
-  { name: 'Shopify', icon: 'simple-icons:shopify', color: '#95BF47', bg: 'bg-lime-50/80 border-lime-100 text-[#95BF47]' },
-  { name: 'WooCommerce', icon: 'simple-icons:woocommerce', color: '#96588A', bg: 'bg-fuchsia-50/80 border-fuchsia-100 text-[#96588A]' },
+  { name: 'Website Popup', icon: 'website' },
+  { name: 'WhatsApp', icon: 'whatsapp' },
+  { name: 'Instagram', icon: 'instagram' },
+  { name: 'Facebook', icon: 'facebook' },
+  { name: 'Messenger', icon: 'messenger' },
+  { name: 'Viber', icon: 'viber' },
+  { name: 'Shopify', icon: 'shopify' },
+  { name: 'WooCommerce', icon: 'woocommerce' },
 ];
 ---
 
@@ -19,17 +19,17 @@ const integrations = [
       Povezuje se u nekoliko minuta s vašim omiljenim kanalima i sistemima
     </div>
 
-    <!-- Desktop 8-cell Grid (Clean Official Logos via astro-icon & simple-icons) -->
-    <div class="hidden lg:grid lg:grid-cols-8 border border-[#e4e4e7] rounded-xl overflow-hidden bg-white shadow-2xs">
-      {integrations.map((item, idx) => (
+    <!-- Desktop 8-cell Grid (Clean Official Brand Logos) -->
+    <div class="hidden lg:grid lg:grid-cols-8 border border-[#e4e4e7] rounded-xl overflow-hidden bg-white shadow-2xs divide-x divide-[#e4e4e7]">
+      {integrations.map((item) => (
         <div 
-          class={`group relative flex h-20 items-center justify-center px-4 transition-all duration-200 ease-out hover:bg-slate-50/80 ${idx !== integrations.length - 1 ? 'border-r border-[#e4e4e7]' : ''}`}
+          class="group relative flex h-20 items-center justify-center px-4 transition-all duration-200 ease-out hover:bg-slate-50/80 cursor-default"
           title={item.name}
         >
-          <div class={`h-10 w-10 rounded-xl border ${item.bg} flex items-center justify-center transition-all duration-200 ease-out group-hover:scale-110 shadow-2xs`}>
+          <div class="h-10 w-10 flex items-center justify-center transition-transform duration-200 ease-out group-hover:scale-110 drop-shadow-2xs">
             <Icon 
               name={item.icon} 
-              class="h-5 w-5 transition-transform duration-200"
+              class="h-9 w-9 object-contain"
             />
           </div>
         </div>
@@ -38,13 +38,13 @@ const integrations = [
 
     <!-- Mobile & Tablet: Smooth infinite continuous Marquee with clean logos -->
     <div class="block lg:hidden overflow-hidden border border-[#e4e4e7] rounded-xl bg-white py-4 shadow-2xs">
-      <div class="animate-marquee flex items-center gap-6">
+      <div class="animate-marquee flex items-center gap-8">
         {[...integrations, ...integrations].map((item) => (
           <div class="flex items-center justify-center shrink-0 px-2" title={item.name}>
-            <div class={`h-9 w-9 rounded-lg border ${item.bg} flex items-center justify-center shadow-2xs`}>
+            <div class="h-8 w-8 flex items-center justify-center drop-shadow-2xs">
               <Icon 
                 name={item.icon} 
-                class="h-4.5 w-4.5"
+                class="h-7 w-7 object-contain"
               />
             </div>
           </div>

@@ -1,0 +1,19 @@
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Browser Window Frame -->
+  <rect x="3" y="6" width="42" height="34" rx="8" fill="#F8FAFC" stroke="#09090B" stroke-width="2.5"/>
+  <path d="M3 15h42" stroke="#09090B" stroke-width="2"/>
+  <!-- Window Controls -->
+  <circle cx="8.5" cy="10.5" r="1.8" fill="#EF4444"/>
+  <circle cx="14" cy="10.5" r="1.8" fill="#F59E0B"/>
+  <circle cx="19.5" cy="10.5" r="1.8" fill="#10B981"/>
+  <!-- Content Lines Skeleton -->
+  <rect x="8" y="21" width="16" height="3" rx="1.5" fill="#E2E8F0"/>
+  <rect x="8" y="27" width="11" height="3" rx="1.5" fill="#E2E8F0"/>
+  <!-- Floating Live Chat Bubble Widget -->
+  <rect x="22" y="21" width="20" height="15" rx="5" fill="#2563EB" stroke="#FFFFFF" stroke-width="1.5"/>
+  <path d="M33 36l3 3.5v-3.5h1" fill="#2563EB"/>
+  <!-- Chat Bubble Content Dots -->
+  <circle cx="27.5" cy="28.5" r="1.4" fill="#FFFFFF"/>
+  <circle cx="32" cy="28.5" r="1.4" fill="#FFFFFF"/>
+  <circle cx="36.5" cy="28.5" r="1.4" fill="#FFFFFF"/>
+</svg>
