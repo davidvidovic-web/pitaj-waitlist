@@ -1,7 +1,7 @@
 ---
 ---
 
-<section class="w-full bg-white overflow-visible">
+<section id="waitlist-form" class="w-full bg-white overflow-visible scroll-mt-16">
   <div class="mx-auto max-w-[1240px] lg:border-x lg:border-b border-[#e4e4e7]">
     <!-- Hero Main Row -->
     <div class="relative overflow-hidden lg:flex">
@@ -29,7 +29,7 @@
         </p>
 
         <!-- Waitlist Signup Form Component -->
-        <div id="waitlist-form" class="mt-8 w-full max-w-[520px]">
+        <div class="mt-8 w-full max-w-[520px]">
           <form id="hero-waitlist-form" class="relative flex flex-col sm:flex-row items-stretch gap-2.5">
             <div class="relative flex-1">
               <input
@@ -64,6 +64,9 @@
             <p class="mt-1 text-[13px] text-emerald-700">
               Poslali smo potvrdu na vaš e-mail. Javit ćemo vam se s prioritetnim pristupom i posebnim ranim pogodnostima.
             </p>
+            <button id="hero-reset-btn" type="button" class="mt-2 text-[12.5px] font-medium text-emerald-800 underline hover:text-emerald-950 cursor-pointer">
+              Prijavite drugu e-mail adresu
+            </button>
           </div>
 
           <!-- Error Message State (Hidden by default) -->
@@ -125,6 +128,7 @@
   const submitBtn = document.getElementById('hero-submit-btn') as HTMLButtonElement | null;
   const successMsg = document.getElementById('hero-success-msg');
   const errorMsg = document.getElementById('hero-error-msg');
+  const resetBtn = document.getElementById('hero-reset-btn');
 
   // Check if previously subscribed
   const savedEmail = localStorage.getItem('pitaj_waitlist_email');
@@ -132,6 +136,49 @@
     form.classList.add('hidden');
     successMsg.classList.remove('hidden');
   }
+
+  // Reset button to allow submitting another email
+  if (resetBtn && form && successMsg && emailInput) {
+    resetBtn.addEventListener('click', () => {
+      form.classList.remove('hidden');
+      successMsg.classList.add('hidden');
+      localStorage.removeItem('pitaj_waitlist_email');
+      emailInput.value = '';
+      emailInput.focus();
+    });
+  }
+
+  // Smooth scroll and focus helper for any CTA button linking to #waitlist-form
+  document.querySelectorAll('a[href="#waitlist-form"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.getElementById('waitlist-form');
+      const input = document.getElementById('hero-email-input');
+      
+      if (target) {
+        // Offset accounts for sticky header (64px)
+        const headerOffset = 64;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = Math.max(0, elementPosition + window.pageYOffset - headerOffset);
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+
+        // Focus and highlight input once scrolled
+        setTimeout(() => {
+          if (input && (!form || !form.classList.contains('hidden'))) {
+            input.focus();
+            input.classList.add('ring-2', 'ring-[#09090b]', 'border-[#09090b]');
+            setTimeout(() => {
+              input.classList.remove('ring-2', 'ring-[#09090b]');
+            }, 1800);
+          }
+        }, 400);
+      }
+    });
+  });
 
   if (form && emailInput && submitBtn && successMsg) {
     form.addEventListener('submit', async (e) => {
