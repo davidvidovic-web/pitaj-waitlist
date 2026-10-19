@@ -47,6 +47,10 @@
           </p>
         </div>
 
+        <!-- Bottom Error Message -->
+        <div id="bottom-error-msg" class="hidden mt-3 p-3.5 rounded-xl border border-red-200 bg-red-50 text-red-800 text-[13px] text-left">
+        </div>
+
         <p class="mt-3 text-[12px] text-[#a1a1aa]">
           Poštujemo vašu privatnost. Nema spama, samo obavijest o dostupnosti.
         </p>
@@ -61,6 +65,7 @@
   const bInput = document.getElementById('bottom-email-input') as HTMLInputElement | null;
   const bBtn = document.getElementById('bottom-submit-btn') as HTMLButtonElement | null;
   const bSuccess = document.getElementById('bottom-success-msg');
+  const bError = document.getElementById('bottom-error-msg');
 
   const saved = localStorage.getItem('pitaj_waitlist_email');
   if (saved && bSuccess && bForm) {
@@ -75,28 +80,40 @@
       if (!email) return;
 
       bBtn.disabled = true;
+      const originalBtnText = bBtn.innerHTML;
       bBtn.innerHTML = `<span>Spremanje...</span>`;
+      if (bError) bError.classList.add('hidden');
 
       try {
-        await fetch('/api/waitlist', {
+        const response = await fetch('/api/waitlist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, source: 'bottom' }),
         });
-      } catch (err) {
-        // graceful
-      }
+        const data = await response.json();
 
-      if (typeof (window as any).gtag === 'function') {
-        (window as any).gtag('event', 'generate_lead', {
-          event_category: 'waitlist',
-          event_label: 'bottom'
-        });
-      }
+        if (!response.ok || !data.success) {
+          throw new Error(data?.error || 'Došlo je do greške prilikom prijave.');
+        }
 
-      localStorage.setItem('pitaj_waitlist_email', email);
-      bForm.classList.add('hidden');
-      bSuccess.classList.remove('hidden');
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'generate_lead', {
+            event_category: 'waitlist',
+            event_label: 'bottom'
+          });
+        }
+
+        localStorage.setItem('pitaj_waitlist_email', email);
+        bForm.classList.add('hidden');
+        bSuccess.classList.remove('hidden');
+      } catch (err: any) {
+        bBtn.disabled = false;
+        bBtn.innerHTML = originalBtnText;
+        if (bError) {
+          bError.textContent = err?.message || 'Došlo je do greške. Molimo pokušajte ponovo.';
+          bError.classList.remove('hidden');
+        }
+      }
     });
   }
 </script>

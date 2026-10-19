@@ -66,6 +66,10 @@
             </p>
           </div>
 
+          <!-- Error Message State (Hidden by default) -->
+          <div id="hero-error-msg" class="hidden mt-3 p-3.5 rounded-xl border border-red-200 bg-red-50 text-red-800 text-[13px] animate-fade-rise">
+          </div>
+
           <!-- Link to Perks Section -->
           <div class="mt-4 flex items-center">
             <a
@@ -115,11 +119,12 @@
 </section>
 
 <script>
-  // Simple client-side submission handler with localStorage persistence
+  // Client-side submission handler with localStorage persistence and API integration
   const form = document.getElementById('hero-waitlist-form') as HTMLFormElement | null;
   const emailInput = document.getElementById('hero-email-input') as HTMLInputElement | null;
   const submitBtn = document.getElementById('hero-submit-btn') as HTMLButtonElement | null;
   const successMsg = document.getElementById('hero-success-msg');
+  const errorMsg = document.getElementById('hero-error-msg');
 
   // Check if previously subscribed
   const savedEmail = localStorage.getItem('pitaj_waitlist_email');
@@ -135,6 +140,7 @@
       if (!email) return;
 
       submitBtn.disabled = true;
+      const originalBtnHtml = submitBtn.innerHTML;
       submitBtn.innerHTML = `
         <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -142,6 +148,7 @@
         </svg>
         <span>Spremanje...</span>
       `;
+      if (errorMsg) errorMsg.classList.add('hidden');
 
       try {
         const response = await fetch('/api/waitlist', {
@@ -149,6 +156,11 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, source: 'hero' }),
         });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data?.error || 'Došlo je do greške prilikom prijave.');
+        }
 
         if (typeof (window as any).gtag === 'function') {
           (window as any).gtag('event', 'generate_lead', {
@@ -160,17 +172,13 @@
         localStorage.setItem('pitaj_waitlist_email', email);
         form.classList.add('hidden');
         successMsg.classList.remove('hidden');
-      } catch (err) {
-        if (typeof (window as any).gtag === 'function') {
-          (window as any).gtag('event', 'generate_lead', {
-            event_category: 'waitlist',
-            event_label: 'hero'
-          });
+      } catch (err: any) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+        if (errorMsg) {
+          errorMsg.textContent = err?.message || 'Došlo je do greške. Molimo pokušajte ponovo.';
+          errorMsg.classList.remove('hidden');
         }
-        // Fallback graceful success
-        localStorage.setItem('pitaj_waitlist_email', email);
-        form.classList.add('hidden');
-        successMsg.classList.remove('hidden');
       }
     });
   }
