@@ -2,7 +2,6 @@
 const industries = [
   {
     id: 'retail',
-    href: '#waitlist-form',
     title: 'Web Trgovine & E-Commerce',
     tagline: 'Kupci žele znati veličinu, cijenu dostave i status paketa odmah.',
     description: 'Agent povezan s WooCommerce ili Shopify katalogom odgovara na upite o zalihama, vodi posjetioce do kupovine i smanjuje napuštene košarice.',
@@ -13,7 +12,6 @@ const industries = [
   },
   {
     id: 'tech',
-    href: '#waitlist-form',
     title: 'Agencije & Tehnologija',
     tagline: 'Pružite klijentima AI agente pod vlastitim brendom i domenom.',
     description: 'Multi-client platforma za digitalne agencije. Uvođenje u par minuta uz potpunu whitelabel podršku i centralizirano upravljanje računima.',
@@ -24,7 +22,6 @@ const industries = [
   },
   {
     id: 'hospitality',
-    href: '#waitlist-form',
     title: 'Hoteli, Apartmani & Turizam',
     tagline: 'Gosti pitaju za slobodne sobe, parking, doručak i check-in u svako doba.',
     description: 'Višejezični asistent odgovara domaćim i stranim turistima na njihovom jeziku te šalje upute i direktne linkove za rezervaciju smještaja.',
@@ -35,7 +32,6 @@ const industries = [
   },
   {
     id: 'healthcare',
-    href: '#waitlist-form',
     title: 'Poliklinike, Zdravstvo & Usluge',
     tagline: 'Pacijenti traže termine, pripremu za pregled i cijene i van radnog vremena.',
     description: 'Pružite pouzdane informacije 24/7, rasteretite medicinsko osoblje telefonskih poziva i automatski prikupite termine za preglede i tretmane.',
@@ -52,10 +48,7 @@ const industries = [
     <!-- Header with Prev/Next Controls -->
     <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
       <div>
-        <div class="inline-flex items-center gap-2 rounded-full border border-[#e4e4e7] bg-[#fafafa] px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-wider text-[#09090b]">
-          Prilagođena rješenja
-        </div>
-        <h2 class="mt-4 text-[1.85rem] font-medium leading-[1.18] tracking-[-0.025em] text-[#09090b] sm:text-[2.25rem] lg:text-[2.5rem]">
+        <h2 class="text-balance text-[1.85rem] font-medium leading-[1.18] tracking-[-0.025em] text-[#09090b] sm:text-[2.25rem] lg:text-[2.5rem]">
           Izgrađeno za <span class="font-proza font-bold italic">vašu</span> industriju
         </h2>
         <p class="mt-2 text-[16px] text-[#52525b]">
@@ -138,17 +131,6 @@ const industries = [
             <p class="mt-2 text-[13px] text-white/75 max-w-[500px] leading-relaxed">
               {ind.description}
             </p>
-            <div class="mt-5 flex items-center gap-2">
-              <a
-                href={ind.href}
-                class="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-[13px] font-semibold text-[#09090b] shadow-sm transition-transform hover:scale-105"
-              >
-                Istraži rješenje
-                <svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M6 12l4-4-4-4" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-            </div>
           </div>
         </div>
       ))}
@@ -175,10 +157,6 @@ const industries = [
             <h3 class="mt-3 text-[20px] font-semibold text-white">{ind.title}</h3>
             <p class="mt-1 text-[13px] text-white/90">{ind.tagline}</p>
             <p class="mt-2 text-[12px] text-white/70">{ind.description}</p>
-            <a href={ind.href} class="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-white underline">
-              Saznajte više
-              <svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 12l4-4-4-4"/></svg>
-            </a>
           </div>
         </div>
       ))}
