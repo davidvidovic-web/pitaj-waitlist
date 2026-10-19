@@ -3,6 +3,11 @@ import { Icon } from 'astro-icon/components';
 
 const channels = [
   {
+    name: 'Website Popup & Chat',
+    description: 'Prilagodljivi chat widget za vaš web sajt koji proaktivno vodi posjetioce kroz ponudu i prikuplja kontakte.',
+    icon: 'website',
+  },
+  {
     name: 'WhatsApp',
     description: 'Automatizirajte korisničku podršku i prodajne upite direktno preko WhatsApp Business API-ja.',
     icon: 'whatsapp',
@@ -16,11 +21,6 @@ const channels = [
     name: 'Slack',
     description: 'Obavijesti o novim upitima, internim eskalacijama i 1-klik preuzimanje razgovora unutar vašeg tima.',
     icon: 'slack',
-  },
-  {
-    name: 'Website Popup & Chat',
-    description: 'Prilagodljivi chat widget za vaš web sajt koji proaktivno vodi posjetioce kroz ponudu i prikuplja kontakte.',
-    icon: 'website',
   },
   {
     name: 'Telegram',
@@ -67,18 +67,18 @@ const channels = [
       </div>
     </div>
 
-    <!-- Attio-style 3x3 Card Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+    <!-- Clean 3x3 Grid: Only icons, title and description -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 lg:gap-x-12 lg:gap-y-12">
       {channels.map((channel) => (
-        <div class="group flex items-start gap-4 rounded-2xl border border-[#e4e4e7] bg-white p-6 shadow-xs transition-all duration-200 hover:border-[#d4d4d8] hover:shadow-md hover:-translate-y-0.5">
-          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#e4e4e7] bg-[#fafafa] p-2.5 shadow-2xs transition-transform duration-200 group-hover:scale-105">
-            <Icon name={channel.icon} class="h-7 w-7 object-contain" />
+        <div class="group flex items-start gap-4">
+          <div class="shrink-0 pt-0.5">
+            <Icon name={channel.icon} class="h-10 w-10 object-contain transition-transform duration-200 group-hover:scale-105" />
           </div>
           <div class="min-w-0 flex-1">
             <h3 class="text-[16px] font-semibold text-[#09090b] tracking-tight">
               {channel.name}
             </h3>
-            <p class="mt-1 text-[13.5px] leading-relaxed text-[#52525b]">
+            <p class="mt-1.5 text-[14px] leading-relaxed text-[#52525b]">
               {channel.description}
             </p>
           </div>

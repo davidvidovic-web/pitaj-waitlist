@@ -45,6 +45,9 @@
           <p class="mt-1 text-[12px] text-emerald-700">
             Hvala na interesu. Obavijestit ćemo vas čim vaša pozicija bude spremna.
           </p>
+          <button id="bottom-reset-btn" type="button" class="mt-2 text-[12px] font-medium text-emerald-800 underline hover:text-emerald-950 cursor-pointer">
+            Prijavite drugu e-mail adresu
+          </button>
         </div>
 
         <!-- Bottom Error Message -->
@@ -66,11 +69,37 @@
   const bBtn = document.getElementById('bottom-submit-btn') as HTMLButtonElement | null;
   const bSuccess = document.getElementById('bottom-success-msg');
   const bError = document.getElementById('bottom-error-msg');
+  const bResetBtn = document.getElementById('bottom-reset-btn');
+
+  const defaultBottomBtnHtml = `
+    <span>Pridruži se</span>
+    <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+
+  function resetBottomButton() {
+    if (bBtn) {
+      bBtn.disabled = false;
+      bBtn.innerHTML = defaultBottomBtnHtml;
+    }
+  }
 
   const saved = localStorage.getItem('pitaj_waitlist_email');
   if (saved && bSuccess && bForm) {
     bForm.classList.add('hidden');
     bSuccess.classList.remove('hidden');
+  }
+
+  if (bResetBtn && bForm && bSuccess && bInput) {
+    bResetBtn.addEventListener('click', () => {
+      resetBottomButton();
+      bForm.classList.remove('hidden');
+      bSuccess.classList.add('hidden');
+      localStorage.removeItem('pitaj_waitlist_email');
+      bInput.value = '';
+      bInput.focus();
+    });
   }
 
   if (bForm && bInput && bBtn && bSuccess) {
@@ -80,8 +109,13 @@
       if (!email) return;
 
       bBtn.disabled = true;
-      const originalBtnText = bBtn.innerHTML;
-      bBtn.innerHTML = `<span>Spremanje...</span>`;
+      bBtn.innerHTML = `
+        <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Spremanje...</span>
+      `;
       if (bError) bError.classList.add('hidden');
 
       try {
@@ -104,11 +138,11 @@
         }
 
         localStorage.setItem('pitaj_waitlist_email', email);
+        resetBottomButton();
         bForm.classList.add('hidden');
         bSuccess.classList.remove('hidden');
       } catch (err: any) {
-        bBtn.disabled = false;
-        bBtn.innerHTML = originalBtnText;
+        resetBottomButton();
         if (bError) {
           bError.textContent = err?.message || 'Došlo je do greške. Molimo pokušajte ponovo.';
           bError.classList.remove('hidden');

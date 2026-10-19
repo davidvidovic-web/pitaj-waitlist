@@ -130,6 +130,20 @@
   const errorMsg = document.getElementById('hero-error-msg');
   const resetBtn = document.getElementById('hero-reset-btn');
 
+  const defaultBtnHtml = `
+    <span>Pridruži se waitlisti</span>
+    <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+
+  function resetButtonState() {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = defaultBtnHtml;
+    }
+  }
+
   // Check if previously subscribed
   const savedEmail = localStorage.getItem('pitaj_waitlist_email');
   if (savedEmail && successMsg && form) {
@@ -140,6 +154,7 @@
   // Reset button to allow submitting another email
   if (resetBtn && form && successMsg && emailInput) {
     resetBtn.addEventListener('click', () => {
+      resetButtonState();
       form.classList.remove('hidden');
       successMsg.classList.add('hidden');
       localStorage.removeItem('pitaj_waitlist_email');
@@ -156,7 +171,12 @@
       const input = document.getElementById('hero-email-input');
       
       if (target) {
-        // Offset accounts for sticky header (64px)
+        if (form && form.classList.contains('hidden')) {
+          form.classList.remove('hidden');
+          if (successMsg) successMsg.classList.add('hidden');
+          resetButtonState();
+        }
+
         const headerOffset = 64;
         const elementPosition = target.getBoundingClientRect().top;
         const offsetPosition = Math.max(0, elementPosition + window.pageYOffset - headerOffset);
@@ -166,9 +186,8 @@
           behavior: 'smooth'
         });
 
-        // Focus and highlight input once scrolled
         setTimeout(() => {
-          if (input && (!form || !form.classList.contains('hidden'))) {
+          if (input) {
             input.focus();
             input.classList.add('ring-2', 'ring-[#09090b]', 'border-[#09090b]');
             setTimeout(() => {
@@ -187,7 +206,6 @@
       if (!email) return;
 
       submitBtn.disabled = true;
-      const originalBtnHtml = submitBtn.innerHTML;
       submitBtn.innerHTML = `
         <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -217,11 +235,11 @@
         }
 
         localStorage.setItem('pitaj_waitlist_email', email);
+        resetButtonState();
         form.classList.add('hidden');
         successMsg.classList.remove('hidden');
       } catch (err: any) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnHtml;
+        resetButtonState();
         if (errorMsg) {
           errorMsg.textContent = err?.message || 'Došlo je do greške. Molimo pokušajte ponovo.';
           errorMsg.classList.remove('hidden');
