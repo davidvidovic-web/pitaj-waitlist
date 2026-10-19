@@ -1,13 +1,45 @@
 ---
-const brandLogos = [
-  { name: 'WooCommerce & WordPress', mono: '/chatbase-assets/thotis-mono.0nbsavymavuv4.svg', color: '/chatbase-assets/thotis.17cjlfyq7apcl.svg' },
-  { name: 'Shopify Store', mono: '/chatbase-assets/aplazo-mono.1atbomff72tk2.svg', color: '/chatbase-assets/aplazo.0v5hbwqiyxe9o.svg' },
-  { name: 'WhatsApp Business', mono: '/chatbase-assets/bridgestone-mono.1kp6_-h6pltmv.svg', color: '/chatbase-assets/bridgestone.2xfl9t2ekfci2.svg' },
-  { name: 'Instagram & Meta', mono: '/chatbase-assets/opal-mono.3bq0yl41qkeyt.svg', color: '/chatbase-assets/opal.0gla976v21ueh.svg' },
-  { name: 'Zendesk CRM', mono: '/chatbase-assets/dolby-mono.0jjlrc-3tqqmj.svg', color: '/chatbase-assets/dolby.07u0y3thqr9ha.svg' },
-  { name: 'ERP & Cloud baze', mono: '/chatbase-assets/roche-mono.27ldfsorg4nvk.svg', color: '/chatbase-assets/roche.2hjc_h5_6_pch.svg' },
-  { name: 'Pitaj Tiketi Helpdesk', mono: '/chatbase-assets/sage-mono.1zp8nnmnr-13q.svg', color: '/chatbase-assets/sage.127tkp_uokj61.svg' },
-  { name: 'Dokumenti, PDF & Tablice', mono: '/chatbase-assets/pearson-mono.12ct-g1-6ect5.svg', color: '/chatbase-assets/pearson.0i5ekpihyezwi.svg' },
+const integrations = [
+  {
+    name: 'Website Popup',
+    badge: 'Web Widget',
+    type: 'website'
+  },
+  {
+    name: 'WhatsApp',
+    badge: 'Business API',
+    type: 'whatsapp'
+  },
+  {
+    name: 'Instagram',
+    badge: 'Direct (DM)',
+    type: 'instagram'
+  },
+  {
+    name: 'Facebook',
+    badge: 'Pages & Feed',
+    type: 'facebook'
+  },
+  {
+    name: 'Messenger',
+    badge: 'Chat',
+    type: 'messenger'
+  },
+  {
+    name: 'Viber',
+    badge: 'Business Bot',
+    type: 'viber'
+  },
+  {
+    name: 'Shopify',
+    badge: 'E-commerce',
+    type: 'shopify'
+  },
+  {
+    name: 'WooCommerce',
+    badge: 'WordPress',
+    type: 'woocommerce'
+  }
 ];
 ---
 
@@ -17,32 +49,107 @@ const brandLogos = [
       Povezuje se u nekoliko minuta s vašim omiljenim kanalima i sistemima
     </div>
 
-    <!-- Desktop 8-cell Grid with Mono/Color transition -->
+    <!-- Desktop 8-cell Grid -->
     <div class="hidden lg:grid lg:grid-cols-8 border border-[#e4e4e7] rounded-xl overflow-hidden bg-white shadow-2xs">
-      {brandLogos.map((brand, idx) => (
-        <div class={`group/cell relative flex h-20 items-center justify-center px-4 transition-colors duration-200 ease-out hover:bg-white ${idx !== brandLogos.length - 1 ? 'border-r border-[#e4e4e7]' : ''}`} title={brand.name}>
-          <!-- Monochrome logo -->
-          <img
-            src={brand.mono}
-            alt={brand.name}
-            class="h-7 w-auto max-w-[100px] object-contain transition-opacity duration-200 ease-out group-hover/cell:opacity-0"
-          />
-          <!-- Color logo on hover -->
-          <img
-            src={brand.color}
-            alt={brand.name}
-            class="h-7 w-auto max-w-[100px] object-contain absolute inset-0 m-auto opacity-0 transition-opacity duration-200 ease-out group-hover/cell:opacity-100"
-          />
+      {integrations.map((item, idx) => (
+        <div 
+          class={`group relative flex flex-col h-24 items-center justify-center gap-2 p-3 transition-all duration-200 hover:bg-slate-50/80 ${idx !== integrations.length - 1 ? 'border-r border-[#e4e4e7]' : ''}`}
+          title={`${item.name} - ${item.badge}`}
+        >
+          <!-- Icons container -->
+          <div class="h-8 w-8 flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
+            {item.type === 'website' && (
+              <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none">
+                <rect x="2" y="4" width="28" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+                <path d="M2 11h28" stroke="#2563eb" stroke-width="1.5"/>
+                <circle cx="6" cy="7.5" r="1" fill="#2563eb"/>
+                <circle cx="9.5" cy="7.5" r="1" fill="#2563eb"/>
+                <circle cx="13" cy="7.5" r="1" fill="#2563eb"/>
+                <path d="M17 17.5c0-1.9 1.8-3.5 4-3.5s4 1.6 4 3.5c0 1-.5 2-1.4 2.6l.4 1.9-1.8-.7c-.4.1-.8.2-1.2.2-2.2 0-4-1.6-4-3.5z" fill="#2563eb"/>
+              </svg>
+            )}
+
+            {item.type === 'whatsapp' && (
+              <svg class="h-8 w-8" viewBox="0 0 32 32" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16 2C8.268 2 2 8.268 2 16c0 2.68.75 5.188 2.057 7.327L2.4 29.6l6.473-1.618A13.916 13.916 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm8.077 19.538c-.346.973-1.724 1.782-2.824 2.018-.752.16-1.733.288-5.042-1.082-4.232-1.752-6.962-6.06-7.173-6.34-.204-.28-1.705-2.27-1.705-4.327 0-2.058 1.077-3.072 1.46-3.488.384-.417.837-.52 1.116-.52.28 0 .558.003.803.015.258.012.604-.098.946.721.346.832 1.18 2.877 1.282 3.087.103.209.172.453.033.729-.138.277-.208.45-.414.694-.207.243-.434.542-.62.729-.208.208-.426.435-.183.852.243.418 1.08 1.782 2.316 2.883 1.59 1.417 2.932 1.857 3.35 2.066.418.209.66.174.907-.105.247-.278 1.055-1.228 1.336-1.646.28-.418.56-.348.945-.209.384.14 2.43 1.147 2.848 1.356.418.209.697.313.802.487.104.174.104 1.009-.242 1.982z" fill="#25D366"/>
+              </svg>
+            )}
+
+            {item.type === 'instagram' && (
+              <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none">
+                <defs>
+                  <radialGradient id="ig-grad-bar" cx="20%" cy="110%" r="130%">
+                    <stop offset="0%" stop-color="#ffdd55" />
+                    <stop offset="30%" stop-color="#ff543e" />
+                    <stop offset="60%" stop-color="#c837ab" />
+                    <stop offset="100%" stop-color="#3771c8" />
+                  </radialGradient>
+                </defs>
+                <rect width="32" height="32" rx="8" fill="url(#ig-grad-bar)"/>
+                <rect x="7" y="7" width="18" height="18" rx="5" stroke="#ffffff" stroke-width="2" fill="none"/>
+                <circle cx="16" cy="16" r="4.2" stroke="#ffffff" stroke-width="2" fill="none"/>
+                <circle cx="21.2" cy="10.8" r="1.2" fill="#ffffff"/>
+              </svg>
+            )}
+
+            {item.type === 'facebook' && (
+              <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="16" r="16" fill="#1877F2"/>
+                <path d="M21.5 16h-3.5v12h-5V16h-2.5v-4h2.5V9.5C13 6.8 14.5 5 18 5h3.5v4H19c-1 0-1.5.5-1.5 1.5V12h4l-.5 4z" fill="#ffffff"/>
+              </svg>
+            )}
+
+            {item.type === 'messenger' && (
+              <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none">
+                <defs>
+                  <linearGradient id="msgr-grad-bar" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00C6FF"/>
+                    <stop offset="50%" stop-color="#0078FF"/>
+                    <stop offset="100%" stop-color="#A033FF"/>
+                  </linearGradient>
+                </defs>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M16 2C8.268 2 2 7.747 2 14.836c0 3.899 1.895 7.37 4.887 9.645V29l4.316-2.37c1.472.41 3.037.632 4.797.632 7.732 0 14-5.747 14-12.836C30 7.747 23.732 2 16 2zm1.458 17.155l-3.568-3.805-6.96 3.805 7.656-8.125 3.654 3.804 6.874-3.804-7.656 8.125z" fill="url(#msgr-grad-bar)"/>
+              </svg>
+            )}
+
+            {item.type === 'viber' && (
+              <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none">
+                <path d="M26.5 4.5C21.7 1.8 10.3 1.8 5.5 4.5 1.6 6.8.3 11.2.3 17.5c0 4.2 1.5 7.8 4 9.8l-.5 3.5c-.1.8.7 1.3 1.3.9l4.1-2.4c6.3 1.5 13.5.8 17.3-1.4 3.9-2.3 5.2-6.7 5.2-13 0-6.2-1.3-10.4-5.2-12.7z" fill="#7360F2"/>
+                <path d="M22 17.5c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.5-1.9-1.7-2.2-.2-.3 0-.5.1-.7.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5s-.7-1.7-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.7.1-1 .5-.4.4-1.4 1.3-1.4 3.3 0 1.9 1.4 3.8 1.6 4 .2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.3.8.9.3 1.8.3 2.5.2.8-.1 2.5-1 2.8-2 .4-1 .4-1.8.3-2-.1-.2-.3-.3-.6-.4z" fill="#ffffff"/>
+              </svg>
+            )}
+
+            {item.type === 'shopify' && (
+              <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none">
+                <path d="M24.7 6.4c-.1-.7-.7-1.1-1.3-1.1-.1 0-.3 0-.4.1-.4-1.7-1.6-3.2-3.4-3.2-1.2 0-2.3.6-2.9 1.6-.7-.6-1.5-.9-2.4-.9-2.1 0-3.5 1.7-3.9 3.5l-3.3 1c-.9.3-1.5 1.1-1.5 2.1l-.8 17.7c-.1 1.7 1.2 3.1 2.9 3.3l15.3 1.8c.2 0 .4 0 .5 0 1.6 0 2.9-1.2 3-2.8L28 9.5c.1-.8-.4-1.6-1.2-1.8l-2.1-1.3zm-7-2.3c.7-.7 1.6-1.1 2.6-1.1 1.2 0 2.2.8 2.5 2l-5.1 1.6v-2.5zm-3.3 1.8c.3-1.2 1.3-2.3 2.6-2.3.2 0 .5 0 .7.1v2.9l-3.3.9v-1.6z" fill="#95BF47"/>
+                <path d="M19.8 14.8c-.8-.2-1.7-.5-2.5-.7-2.4-.8-2.5-1.8-2.5-2.2 0-1.3 1.3-2 2.7-2 1.6 0 2.4.7 2.8 1.5.2.4.6.6 1 .5.4-.1.7-.5.6-1-.7-1.4-2.2-2.5-4.4-2.5-2.4 0-4.3 1.5-4.3 3.6 0 1.9 1.3 3.2 3.7 4 1.8.6 2.3.9 2.3 1.6 0 .9-.8 1.5-2.1 1.5-1.5 0-2.7-.7-3.3-1.9-.2-.4-.7-.6-1.1-.4-.4.2-.6.7-.4 1.1.9 1.8 2.8 2.8 4.8 2.8 2.5 0 4-1.4 4-3.4-.1-1.6-.9-2.4-2.8-2.9z" fill="#ffffff"/>
+              </svg>
+            )}
+
+            {item.type === 'woocommerce' && (
+              <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none">
+                <rect width="32" height="26" y="3" rx="6" fill="#96588A"/>
+                <path d="M6 19l2.5-9h2.3l1.8 6.5 1.8-6.5h2.3l-2.5 9h-2.2l-1.8-6.3-1.8 6.3H6zm11.2 0l2.5-9H22l1.8 6.5 1.8-6.5h2.3l-2.5 9h-2.2l-1.8-6.3-1.8 6.3h-2.2z" fill="#ffffff"/>
+              </svg>
+            )}
+          </div>
+
+          <!-- Label -->
+          <div class="text-center">
+            <div class="text-[12px] font-semibold text-[#09090b] tracking-tight">{item.name}</div>
+            <div class="text-[10px] text-[#71717a] font-medium">{item.badge}</div>
+          </div>
         </div>
       ))}
     </div>
 
     <!-- Mobile & Tablet: Smooth infinite continuous Marquee -->
-    <div class="block lg:hidden overflow-hidden border border-[#e4e4e7] rounded-xl bg-white py-3 shadow-2xs">
-      <div class="animate-marquee flex items-center gap-8">
-        {[...brandLogos, ...brandLogos].map((brand) => (
-          <div class="flex items-center gap-2 shrink-0 px-2">
-            <img src={brand.color} alt={brand.name} class="h-6 w-auto max-w-[90px] object-contain" />
+    <div class="block lg:hidden overflow-hidden border border-[#e4e4e7] rounded-xl bg-white py-3.5 shadow-2xs">
+      <div class="animate-marquee flex items-center gap-4">
+        {[...integrations, ...integrations].map((item) => (
+          <div class="flex items-center gap-2 shrink-0 px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-200/80">
+            <span class="text-xs font-semibold text-slate-900">{item.name}</span>
+            <span class="text-[10px] text-slate-500 font-medium">({item.badge})</span>
           </div>
         ))}
       </div>
