@@ -87,6 +87,13 @@
         // graceful
       }
 
+      if (typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'generate_lead', {
+          event_category: 'waitlist',
+          event_label: 'bottom'
+        });
+      }
+
       localStorage.setItem('pitaj_waitlist_email', email);
       bForm.classList.add('hidden');
       bSuccess.classList.remove('hidden');

@@ -159,17 +159,23 @@
           body: JSON.stringify({ email, source: 'hero' }),
         });
 
-        if (response.ok) {
-          localStorage.setItem('pitaj_waitlist_email', email);
-          form.classList.add('hidden');
-          successMsg.classList.remove('hidden');
-        } else {
-          // Fallback graceful success
-          localStorage.setItem('pitaj_waitlist_email', email);
-          form.classList.add('hidden');
-          successMsg.classList.remove('hidden');
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'generate_lead', {
+            event_category: 'waitlist',
+            event_label: 'hero'
+          });
         }
+
+        localStorage.setItem('pitaj_waitlist_email', email);
+        form.classList.add('hidden');
+        successMsg.classList.remove('hidden');
       } catch (err) {
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'generate_lead', {
+            event_category: 'waitlist',
+            event_label: 'hero'
+          });
+        }
         // Fallback graceful success
         localStorage.setItem('pitaj_waitlist_email', email);
         form.classList.add('hidden');
