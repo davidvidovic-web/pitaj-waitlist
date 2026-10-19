@@ -1,0 +1,51 @@
+---
+const brandLogos = [
+  { name: 'WooCommerce & WordPress', mono: '/chatbase-assets/thotis-mono.0nbsavymavuv4.svg', color: '/chatbase-assets/thotis.17cjlfyq7apcl.svg' },
+  { name: 'Shopify Store', mono: '/chatbase-assets/aplazo-mono.1atbomff72tk2.svg', color: '/chatbase-assets/aplazo.0v5hbwqiyxe9o.svg' },
+  { name: 'WhatsApp Business', mono: '/chatbase-assets/bridgestone-mono.1kp6_-h6pltmv.svg', color: '/chatbase-assets/bridgestone.2xfl9t2ekfci2.svg' },
+  { name: 'Instagram & Meta', mono: '/chatbase-assets/opal-mono.3bq0yl41qkeyt.svg', color: '/chatbase-assets/opal.0gla976v21ueh.svg' },
+  { name: 'Zendesk CRM', mono: '/chatbase-assets/dolby-mono.0jjlrc-3tqqmj.svg', color: '/chatbase-assets/dolby.07u0y3thqr9ha.svg' },
+  { name: 'ERP & Cloud baze', mono: '/chatbase-assets/roche-mono.27ldfsorg4nvk.svg', color: '/chatbase-assets/roche.2hjc_h5_6_pch.svg' },
+  { name: 'Pitaj Tiketi Helpdesk', mono: '/chatbase-assets/sage-mono.1zp8nnmnr-13q.svg', color: '/chatbase-assets/sage.127tkp_uokj61.svg' },
+  { name: 'Dokumenti, PDF & Tablice', mono: '/chatbase-assets/pearson-mono.12ct-g1-6ect5.svg', color: '/chatbase-assets/pearson.0i5ekpihyezwi.svg' },
+];
+---
+
+<section class="w-full bg-[#fafafa]/80 border-b border-[#e4e4e7]">
+  <div class="mx-auto max-w-[1240px] px-6 py-10 lg:px-16 lg:border-x border-[#e4e4e7]">
+    <div class="text-center text-[12px] font-semibold uppercase tracking-wider text-[#a1a1aa] mb-6">
+      Povezuje se u nekoliko minuta s vašim omiljenim kanalima i sistemima
+    </div>
+
+    <!-- Desktop 8-cell Grid with Mono/Color transition -->
+    <div class="hidden lg:grid lg:grid-cols-8 border border-[#e4e4e7] rounded-xl overflow-hidden bg-white shadow-2xs">
+      {brandLogos.map((brand, idx) => (
+        <div class={`group/cell relative flex h-20 items-center justify-center px-4 transition-colors duration-200 ease-out hover:bg-white ${idx !== brandLogos.length - 1 ? 'border-r border-[#e4e4e7]' : ''}`} title={brand.name}>
+          <!-- Monochrome logo -->
+          <img
+            src={brand.mono}
+            alt={brand.name}
+            class="h-7 w-auto max-w-[100px] object-contain transition-opacity duration-200 ease-out group-hover/cell:opacity-0"
+          />
+          <!-- Color logo on hover -->
+          <img
+            src={brand.color}
+            alt={brand.name}
+            class="h-7 w-auto max-w-[100px] object-contain absolute inset-0 m-auto opacity-0 transition-opacity duration-200 ease-out group-hover/cell:opacity-100"
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- Mobile & Tablet: Smooth infinite continuous Marquee -->
+    <div class="block lg:hidden overflow-hidden border border-[#e4e4e7] rounded-xl bg-white py-3 shadow-2xs">
+      <div class="animate-marquee flex items-center gap-8">
+        {[...brandLogos, ...brandLogos].map((brand) => (
+          <div class="flex items-center gap-2 shrink-0 px-2">
+            <img src={brand.color} alt={brand.name} class="h-6 w-auto max-w-[90px] object-contain" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

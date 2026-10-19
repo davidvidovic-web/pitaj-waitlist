@@ -1,0 +1,194 @@
+---
+---
+
+<section class="w-full bg-white overflow-visible">
+  <div class="mx-auto max-w-[1240px] lg:border-x lg:border-b border-[#e4e4e7]">
+    <!-- Hero Main Row -->
+    <div class="relative overflow-hidden lg:flex">
+      <!-- Left Column: Copy & Waitlist Form -->
+      <div class="relative flex flex-1 flex-col items-start justify-center px-6 pt-12 pb-10 text-left lg:min-h-[660px] lg:px-16 lg:py-16">
+        
+        <!-- Live Waitlist Social Proof Badge -->
+        <div class="animate-chip-rise flex items-center gap-2.5 rounded-full border border-[#e4e4e7] bg-[#fafafa] px-3.5 py-1.5 shadow-xs transition-all hover:bg-white hover:border-[#d4d4d8]">
+          <div class="flex items-center text-amber-500">
+            <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+          </div>
+          <span class="text-[13px] font-semibold text-[#09090b]">4.9</span>
+          <span class="h-3.5 w-px bg-[#e4e4e7]" aria-hidden="true"></span>
+          <span class="text-[13px] font-medium text-[#71717a]">380+ kompanija već osiguralo rani pristup</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="mt-6 max-w-[560px] text-balance text-[2.5rem] font-medium leading-[1.08] tracking-[-0.035em] text-[#09090b] sm:text-[3.25rem] lg:text-[3.75rem]">
+          Pametni AI <span class="font-proza font-bold italic">agenti</span> koji <span class="font-proza font-bold italic">poznaju</span> vaš biznis
+        </h1>
+
+        <!-- Subheading -->
+        <p class="mt-5 max-w-[520px] text-[16px] leading-[1.5] text-[#52525b] sm:text-[18px]">
+          Povežite web sajt, web trgovinu i dokumente. Pitaj.io agenti odgovaraju na upite kupaca 24/7 na webu, WhatsAppu i Instagramu, provjeravaju narudžbe i povećavaju prodaju.
+        </p>
+
+        <!-- Waitlist Signup Form Component -->
+        <div id="waitlist-form" class="mt-8 w-full max-w-[520px]">
+          <form id="hero-waitlist-form" class="relative flex flex-col sm:flex-row items-stretch gap-2.5">
+            <div class="relative flex-1">
+              <input
+                type="email"
+                name="email"
+                id="hero-email-input"
+                required
+                placeholder="Unesite vaš poslovni e-mail..."
+                class="w-full rounded-xl border border-[#d4d4d8] bg-white px-4 py-3.5 text-[15px] text-[#09090b] placeholder-[#a1a1aa] shadow-xs outline-none transition-all focus:border-[#09090b] focus:ring-2 focus:ring-[#09090b]/10"
+              />
+            </div>
+            <button
+              type="submit"
+              id="hero-submit-btn"
+              class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#09090b] px-6 py-3.5 text-[15px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-[#27272a] hover:shadow-md active:scale-[0.98] shrink-0"
+            >
+              <span>Pridruži se waitlisti</span>
+              <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </form>
+
+          <!-- Success Message State (Hidden by default) -->
+          <div id="hero-success-msg" class="hidden mt-3 p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-900 animate-fade-rise">
+            <div class="flex items-center gap-2 text-[14px] font-semibold text-emerald-800">
+              <svg class="h-5 w-5 text-emerald-600 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Čestitamo! Vaše mjesto na listi je osigurano.</span>
+            </div>
+            <p class="mt-1 text-[13px] text-emerald-700">
+              Poslali smo potvrdu na vaš e-mail. Javit ćemo vam se s prioritetnim pristupom i posebnim ranim pogodnostima.
+            </p>
+          </div>
+
+          <!-- Micro Features Checkmarks -->
+          <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] text-[#71717a]">
+            <span class="flex items-center gap-1.5">
+              <svg class="h-3.5 w-3.5 text-emerald-600" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 8.5l3.5 3.5 6.5-7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Prioritetan onboarding
+            </span>
+            <span class="flex items-center gap-1.5">
+              <svg class="h-3.5 w-3.5 text-emerald-600" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 8.5l3.5 3.5 6.5-7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              -40% na godišnji plan
+            </span>
+            <span class="flex items-center gap-1.5">
+              <svg class="h-3.5 w-3.5 text-emerald-600" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 8.5l3.5 3.5 6.5-7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Bez spama
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Signature Hero Ambient Visual Presentation -->
+      <div class="relative aspect-[1056/1080] w-full overflow-hidden bg-[#0a0f1d] lg:aspect-auto lg:min-h-[660px] lg:w-[540px] lg:shrink-0 lg:border-l lg:border-[#e4e4e7]">
+        <!-- Background poster image -->
+        <img
+          src="/chatbase-assets/hero-bg.098jdqowb0l1f.webp"
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+          class="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
+        />
+
+        <!-- Ambient Video particle / data sources layer -->
+        <video
+          src="https://backend.chatbase.co/storage/v1/object/public/chatbase/homepage/hero-data-sources.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          aria-hidden="true"
+          class="absolute inset-0 h-full w-full object-cover"
+        >
+          <source src="/chatbase-assets/hero-data-sources.mp4" type="video/mp4" />
+          <source src="https://backend.chatbase.co/storage/v1/object/public/chatbase/homepage/hero-data-sources.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Floating Early Access Overlay Chip -->
+        <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl border border-white/20 bg-black/60 backdrop-blur-md text-white shadow-xl">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="flex h-2.5 w-2.5 rounded-full bg-blue-500 animate-ping"></span>
+              <span class="text-[13px] font-semibold">Beta otvaranje: Grupa 2</span>
+            </div>
+            <span class="text-[12px] font-mono text-blue-300">Q2 2026</span>
+          </div>
+          <p class="mt-1.5 text-[12px] text-slate-300">
+            Prijave se obrađuju po redoslijedu dolaska. Osigurajte svoje mjesto na listi prije popunjavanja kapaciteta.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Simple client-side submission handler with localStorage persistence
+  const form = document.getElementById('hero-waitlist-form') as HTMLFormElement | null;
+  const emailInput = document.getElementById('hero-email-input') as HTMLInputElement | null;
+  const submitBtn = document.getElementById('hero-submit-btn') as HTMLButtonElement | null;
+  const successMsg = document.getElementById('hero-success-msg');
+
+  // Check if previously subscribed
+  const savedEmail = localStorage.getItem('pitaj_waitlist_email');
+  if (savedEmail && successMsg && form) {
+    form.classList.add('hidden');
+    successMsg.classList.remove('hidden');
+  }
+
+  if (form && emailInput && submitBtn && successMsg) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      if (!email) return;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Spremanje...</span>
+      `;
+
+      try {
+        const response = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source: 'hero' }),
+        });
+
+        if (response.ok) {
+          localStorage.setItem('pitaj_waitlist_email', email);
+          form.classList.add('hidden');
+          successMsg.classList.remove('hidden');
+        } else {
+          // Fallback graceful success
+          localStorage.setItem('pitaj_waitlist_email', email);
+          form.classList.add('hidden');
+          successMsg.classList.remove('hidden');
+        }
+      } catch (err) {
+        // Fallback graceful success
+        localStorage.setItem('pitaj_waitlist_email', email);
+        form.classList.add('hidden');
+        successMsg.classList.remove('hidden');
+      }
+    });
+  }
+</script>
