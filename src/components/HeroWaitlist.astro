@@ -1,21 +1,32 @@
 ---
+const count = await (async () => {
+  try {
+    const { createClient } = await import('@libsql/client/web');
+    const url = import.meta.env.TURSO_DATABASE_URL || 'libsql://pitajio-waitlist-davidvidovic-web.aws-eu-west-1.turso.io';
+    const authToken = import.meta.env.TURSO_AUTH_TOKEN;
+    if (!authToken) return null;
+    const db = createClient({ url, authToken });
+    const result = await db.execute('SELECT COUNT(*) as cnt FROM waitlist');
+    const cnt = Number(result.rows[0]?.cnt ?? 0);
+    return cnt;
+  } catch {
+    return null;
+  }
+})();
+
+const badgeCount = count !== null ? `${count}+` : '8+';
 ---
 
 <section id="waitlist-form" class="w-full bg-white overflow-visible scroll-mt-16">
   <div class="mx-auto max-w-[1240px] lg:border-x lg:border-b border-[#e4e4e7]">
     <!-- Hero Main Row -->
     <div class="relative overflow-hidden lg:flex">
-      <!-- Left Column: Copy & Waitlist Form -->
+      <!-- Left Column: Copy & Demo Form -->
       <div class="relative flex flex-1 flex-col items-start justify-center px-6 pt-12 pb-10 text-left lg:min-h-[660px] lg:px-16 lg:py-16">
         
-        <!-- Live Waitlist Social Proof Badge -->
+        <!-- Live Social Proof Badge -->
         <div class="animate-chip-rise flex items-center gap-2.5 rounded-full border border-[#e4e4e7] bg-[#fafafa] px-3.5 py-1.5 shadow-xs transition-all hover:bg-white hover:border-[#d4d4d8]">
-          <div class="flex items-center text-amber-500">
-            <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-            </svg>
-          </div>
-          <span class="text-[13px] font-medium text-[#71717a]"><strong class="font-semibold text-[#09090b]">8+</strong> kompanija već osiguralo rani pristup</span>
+          <span class="text-[13px] font-medium text-[#71717a]"><strong class="font-semibold text-[#09090b]">{badgeCount}</strong> kompanija već osiguralo rani pristup</span>
         </div>
 
         <!-- Headline -->
@@ -46,7 +57,7 @@
               id="hero-submit-btn"
               class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#09090b] px-6 py-3.5 text-[15px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-[#27272a] hover:shadow-md active:scale-[0.98] shrink-0"
             >
-              <span>Pridruži se waitlisti</span>
+              <span>Zatraži demo</span>
               <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -59,10 +70,10 @@
               <svg class="h-5 w-5 text-emerald-600 shrink-0" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
               </svg>
-              <span>Čestitamo! Vaše mjesto na listi je osigurano.</span>
+              <span>Čestitamo! Uspješno ste se prijavili za demo.</span>
             </div>
             <p class="mt-1 text-[13px] text-emerald-700">
-              Vaša e-mail adresa je zabilježena. Javit ćemo vam se s prioritetnim pristupom i posebnim ranim pogodnostima.
+              Vaša e-mail adresa je zabilježena. Javit ćemo vam se za dogovor termina demo prezentacije.
             </p>
             <button id="hero-reset-btn" type="button" class="mt-2 text-[12.5px] font-medium text-emerald-800 underline hover:text-emerald-950 cursor-pointer">
               Prijavite drugu e-mail adresu
@@ -131,7 +142,7 @@
   const resetBtn = document.getElementById('hero-reset-btn');
 
   const defaultBtnHtml = `
-    <span>Pridruži se waitlisti</span>
+    <span>Zatraži demo</span>
     <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
