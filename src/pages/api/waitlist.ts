@@ -59,9 +59,26 @@ export const POST: APIRoute = async ({ request }) => {
       );
     `);
 
-    // Insert or update subscriber entry
+    // Check if email already exists
+    const existing = await db.execute({
+      sql: `SELECT id FROM waitlist WHERE email = ?`,
+      args: [email],
+    });
+
+    if (existing.rows.length > 0) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          duplicate: true,
+          error: 'Ova e-mail adresa je već prijavljena za demo.',
+        }),
+        { status: 409, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Insert new subscriber entry
     await db.execute({
-      sql: `INSERT INTO waitlist (email, source) VALUES (?, ?) ON CONFLICT(email) DO UPDATE SET source = excluded.source`,
+      sql: `INSERT INTO waitlist (email, source) VALUES (?, ?)`,
       args: [email, source],
     });
 
