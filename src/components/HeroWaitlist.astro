@@ -1,94 +1,45 @@
 ---
-const count = await (async () => {
-  try {
-    const { createClient } = await import('@libsql/client/web');
-    const url = import.meta.env.TURSO_DATABASE_URL || 'libsql://pitajio-waitlist-davidvidovic-web.aws-eu-west-1.turso.io';
-    const authToken = import.meta.env.TURSO_AUTH_TOKEN;
-    if (!authToken) return null;
-    const db = createClient({ url, authToken });
-    const result = await db.execute('SELECT COUNT(*) as cnt FROM waitlist');
-    const cnt = Number(result.rows[0]?.cnt ?? 0);
-    return cnt;
-  } catch {
-    return null;
-  }
-})();
-
-const badgeCount = count !== null ? `${count}` : '8';
+import WaitlistForm from './WaitlistForm.astro';
 ---
 
 <section id="waitlist-form" class="w-full bg-white overflow-visible scroll-mt-16">
-  <div class="mx-auto max-w-[1240px] lg:border-x lg:border-b border-[#e4e4e7]">
+  <div class="mx-auto max-w-[1240px] lg:border-x lg:border-b border-line">
     <!-- Hero Main Row -->
     <div class="relative overflow-hidden lg:flex">
       <!-- Left Column: Copy & Demo Form -->
       <div class="relative flex flex-1 flex-col items-start justify-center px-6 pt-12 pb-10 text-left lg:min-h-[660px] lg:px-16 lg:py-16">
         
-        <!-- Live Social Proof Badge -->
-        <div class="animate-chip-rise flex items-center gap-2.5 rounded-full border border-[#e4e4e7] bg-[#fafafa] px-3.5 py-1.5 shadow-xs transition-all hover:bg-white hover:border-[#d4d4d8]">
-          <span class="text-[13px] font-medium text-[#71717a]"><strong class="font-semibold text-[#09090b]">{badgeCount}</strong> kompanija već osiguralo rani pristup</span>
+        <!-- Broj prijava: prikazuje se samo kad API vrati stvarni broj iznad praga -->
+        <div id="waitlist-count-badge" hidden class="animate-chip-rise flex items-center gap-2.5 rounded-full border border-line bg-sunken px-3.5 py-1.5 shadow-xs">
+          <span class="text-[13px] font-medium text-muted"><strong id="waitlist-count" class="font-semibold text-ink"></strong> kompanija već osiguralo rani pristup</span>
         </div>
 
         <!-- Headline -->
-        <h1 class="mt-6 max-w-[560px] text-balance text-[2.5rem] font-medium leading-[1.08] tracking-[-0.035em] text-[#09090b] sm:text-[3.25rem] lg:text-[3.75rem]">
+        <h1 class="mt-6 max-w-[560px] text-balance text-[2.5rem] font-medium leading-[1.08] tracking-[-0.035em] text-ink sm:text-[3.25rem] lg:text-[3.75rem]">
           Pametni AI <span class="font-proza font-bold italic">agenti</span> koji <span class="font-proza font-bold italic">poznaju</span> vaš biznis
         </h1>
 
         <!-- Subheading -->
-        <p class="mt-5 max-w-[520px] text-[16px] leading-[1.5] text-[#52525b] sm:text-[18px]">
+        <p class="mt-5 max-w-[520px] text-[16px] leading-[1.5] text-muted sm:text-[18px]">
           Povežite web sajt, web trgovinu i dokumente. Pitaj.io agenti odgovaraju na upite kupaca 24/7 na webu, WhatsAppu i Instagramu, provjeravaju narudžbe i povećavaju prodaju.
         </p>
 
         <!-- Waitlist Signup Form Component -->
         <div class="mt-8 w-full max-w-[520px]">
-          <form id="hero-waitlist-form" class="relative flex flex-col sm:flex-row items-stretch gap-2.5">
-            <div class="relative flex-1">
-              <input
-                type="email"
-                name="email"
-                id="hero-email-input"
-                required
-                placeholder="Unesite vaš poslovni e-mail..."
-                class="w-full rounded-xl border border-[#d4d4d8] bg-white px-4 py-3.5 text-[15px] text-[#09090b] placeholder-[#a1a1aa] shadow-xs outline-none transition-all focus:border-[#09090b] focus:ring-2 focus:ring-[#09090b]/10"
-              />
-            </div>
-            <button
-              type="submit"
-              id="hero-submit-btn"
-              class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#09090b] px-6 py-3.5 text-[15px] font-medium text-white shadow-sm transition-all duration-200 hover:bg-[#27272a] hover:shadow-md active:scale-[0.98] shrink-0"
-            >
-              <span>Zatraži demo</span>
-              <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </form>
-
-          <!-- Success Message State (Hidden by default) -->
-          <div id="hero-success-msg" class="hidden mt-3 p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-900 animate-fade-rise">
-            <div class="flex items-center gap-2 text-[14px] font-semibold text-emerald-800">
-              <svg class="h-5 w-5 text-emerald-600 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-              <span>Čestitamo! Uspješno ste se prijavili za demo.</span>
-            </div>
-            <p class="mt-1 text-[13px] text-emerald-700">
-              Vaša e-mail adresa je zabilježena. Javit ćemo vam se za dogovor termina demo prezentacije.
-            </p>
-            <button id="hero-reset-btn" type="button" class="mt-2 text-[12.5px] font-medium text-emerald-800 underline hover:text-emerald-950 cursor-pointer">
-              Prijavite drugu e-mail adresu
-            </button>
-          </div>
-
-          <!-- Error Message State (Hidden by default) -->
-          <div id="hero-error-msg" class="hidden mt-3 p-3.5 rounded-xl border border-red-200 bg-red-50 text-red-800 text-[13px] animate-fade-rise">
-          </div>
+          <WaitlistForm
+            prefix="hero"
+            source="hero"
+            placeholder="Vaš poslovni e-mail"
+            buttonLabel="Zatraži rani pristup"
+            successTitle="Prijava je zaprimljena."
+            successText="Javit ćemo vam se e-mailom s terminom demo prezentacije i detaljima ranog pristupa."
+          />
 
           <!-- Link to Perks Section -->
           <div class="mt-4 flex items-center">
             <a
               href="#pogodnosti"
-              class="group inline-flex items-center gap-1.5 text-[13.5px] font-medium text-[#71717a] hover:text-[#162ea8] transition-colors"
+              class="group inline-flex min-h-8 items-center gap-1.5 text-[13.5px] font-medium text-subtle hover:text-brand transition-colors"
             >
               <span>Pogledajte pogodnosti ranog pristupa</span>
               <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
@@ -100,162 +51,56 @@ const badgeCount = count !== null ? `${count}` : '8';
 
       </div>
 
-      <!-- Right Column: Signature Hero Ambient Visual Presentation -->
-      <div class="relative aspect-[1056/1080] w-full overflow-hidden bg-[#0a0f1d] lg:aspect-auto lg:min-h-[660px] lg:w-[540px] lg:shrink-0 lg:border-l lg:border-[#e4e4e7]">
-        <!-- Background poster image -->
-        <img
-          src="/chatbase-assets/hero-bg.098jdqowb0l1f.webp"
-          alt=""
-          aria-hidden="true"
-          draggable="false"
-          class="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
-        />
+      <!-- Right Column: primjer razgovora (ilustracija proizvoda) -->
+      <div class="relative flex w-full items-center justify-center overflow-hidden bg-night px-6 py-12 lg:min-h-[660px] lg:w-[540px] lg:shrink-0 lg:border-l lg:border-line lg:px-10">
+        <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_85%_0%,var(--color-brand)_0%,transparent_60%)] opacity-70"></div>
 
-        <!-- Ambient Video particle / data sources layer -->
-        <video
-          src="https://backend.chatbase.co/storage/v1/object/public/chatbase/homepage/hero-data-sources.mp4"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="auto"
-          aria-hidden="true"
-          class="absolute inset-0 h-full w-full object-cover"
-        >
-          <source src="/chatbase-assets/hero-data-sources.mp4" type="video/mp4" />
-          <source src="https://backend.chatbase.co/storage/v1/object/public/chatbase/homepage/hero-data-sources.mp4" type="video/mp4" />
-        </video>
+        <figure class="relative w-full max-w-[400px]" aria-label="Primjer razgovora s Pitaj.io agentom">
+          <div class="flex items-center gap-2.5 pb-4">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-ink">
+              <svg class="h-4 w-4" viewBox="0 0 28 28" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M6.1 23V5H15.8 C19.4 5 21.6 7.2 21.6 10.6 C21.6 14 19.4 16.2 15.8 16.2 H11V23H6.1Z M11 9.1V12.2H15.4 C16.6 12.2 17.3 11.6 17.3 10.6 C17.3 9.6 16.6 9.1 15.4 9.1H11Z"/></svg>
+            </span>
+            <div class="text-[13px] leading-tight">
+              <div class="font-semibold text-white">Agent za web trgovinu</div>
+              <div class="text-brand-tint">Odgovara iz vašeg kataloga</div>
+            </div>
+          </div>
 
-
+          <div class="flex flex-col gap-3">
+            <div class="ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-brand px-4 py-3 text-[14px] leading-snug text-white">
+              Imate li jaknu Alpina u veličini M?
+            </div>
+            <div class="max-w-[92%] rounded-2xl rounded-bl-md bg-white px-4 py-3 text-[14px] leading-snug text-ink-soft shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45)]">
+              Da, jakna Alpina u veličini M je dostupna. Mogu vam poslati link za narudžbu ili provjeriti status dostave.
+              <div class="mt-3 flex flex-wrap gap-2">
+                <span class="rounded-full border border-line bg-sunken px-3 py-1 text-[12px] font-medium text-ink-soft">Naruči</span>
+                <span class="rounded-full border border-line bg-sunken px-3 py-1 text-[12px] font-medium text-ink-soft">Status dostave</span>
+              </div>
+            </div>
+            <div class="ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-brand px-4 py-3 text-[14px] leading-snug text-white">
+              Može li zamjena ako ne odgovara?
+            </div>
+          </div>
+          <figcaption class="mt-5 text-[12px] text-brand-tint">Ilustracija: primjer razgovora, ne stvarni podaci.</figcaption>
+        </figure>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  // Client-side submission handler with localStorage persistence and API integration
-  const form = document.getElementById('hero-waitlist-form') as HTMLFormElement | null;
-  const emailInput = document.getElementById('hero-email-input') as HTMLInputElement | null;
-  const submitBtn = document.getElementById('hero-submit-btn') as HTMLButtonElement | null;
-  const successMsg = document.getElementById('hero-success-msg');
-  const errorMsg = document.getElementById('hero-error-msg');
-  const resetBtn = document.getElementById('hero-reset-btn');
-
-  const defaultBtnHtml = `
-    <span>Zatraži demo</span>
-    <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  `;
-
-  function resetButtonState() {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = defaultBtnHtml;
-    }
-  }
-
-  // Check if previously subscribed
-  const savedEmail = localStorage.getItem('pitaj_waitlist_email');
-  if (savedEmail && successMsg && form) {
-    form.classList.add('hidden');
-    successMsg.classList.remove('hidden');
-  }
-
-  // Reset button to allow submitting another email
-  if (resetBtn && form && successMsg && emailInput) {
-    resetBtn.addEventListener('click', () => {
-      resetButtonState();
-      form.classList.remove('hidden');
-      successMsg.classList.add('hidden');
-      localStorage.removeItem('pitaj_waitlist_email');
-      emailInput.value = '';
-      emailInput.focus();
-    });
-  }
-
-  // Smooth scroll and focus helper for any CTA button linking to #waitlist-form
-  document.querySelectorAll('a[href="#waitlist-form"]').forEach((anchor) => {
-    anchor.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = document.getElementById('waitlist-form');
-      const input = document.getElementById('hero-email-input');
-      
-      if (target) {
-        if (form && form.classList.contains('hidden')) {
-          form.classList.remove('hidden');
-          if (successMsg) successMsg.classList.add('hidden');
-          resetButtonState();
+  // Stvarni broj prijava (API vraća null ispod praga ili kad baza nije dostupna).
+  const badge = document.getElementById('waitlist-count-badge');
+  const countEl = document.getElementById('waitlist-count');
+  if (badge && countEl) {
+    fetch('/api/waitlist')
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (typeof data?.count === 'number') {
+          countEl.textContent = String(data.count);
+          badge.hidden = false;
         }
-
-        const headerOffset = 64;
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = Math.max(0, elementPosition + window.pageYOffset - headerOffset);
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-
-        setTimeout(() => {
-          if (input) {
-            input.focus();
-            input.classList.add('ring-2', 'ring-[#09090b]', 'border-[#09090b]');
-            setTimeout(() => {
-              input.classList.remove('ring-2', 'ring-[#09090b]');
-            }, 1800);
-          }
-        }, 400);
-      }
-    });
-  });
-
-  if (form && emailInput && submitBtn && successMsg) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = emailInput.value.trim();
-      if (!email) return;
-
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `
-        <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <span>Spremanje...</span>
-      `;
-      if (errorMsg) errorMsg.classList.add('hidden');
-
-      try {
-        const response = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, source: 'hero' }),
-        });
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-          throw new Error(data?.error || 'Došlo je do greške prilikom prijave.');
-        }
-
-        if (typeof (window as any).gtag === 'function') {
-          (window as any).gtag('event', 'generate_lead', {
-            event_category: 'waitlist',
-            event_label: 'hero'
-          });
-        }
-
-        localStorage.setItem('pitaj_waitlist_email', email);
-        resetButtonState();
-        form.classList.add('hidden');
-        successMsg.classList.remove('hidden');
-      } catch (err: any) {
-        resetButtonState();
-        if (errorMsg) {
-          errorMsg.textContent = err?.message || 'Došlo je do greške. Molimo pokušajte ponovo.';
-          errorMsg.classList.remove('hidden');
-        }
-      }
-    });
+      })
+      .catch(() => {});
   }
 </script>

@@ -1,25 +1,22 @@
 ---
 import { Icon } from 'astro-icon/components';
+
+// Jedino mjesto za adresu Instagram profila.
+const INSTAGRAM_URL = 'https://www.instagram.com/pitaj.io';
 ---
 
 <!-- Main Footer Container with Full-Width Blue Background and Cut-in White Card -->
 <footer class="relative isolate w-full">
   <div class="relative isolate w-full">
     <!-- Blue textured background spanning the ENTIRE footer section -->
-    <div aria-hidden="true" class="-z-10 pointer-events-none absolute inset-0 bg-[#162ea8]">
-      <img
-        alt=""
-        class="absolute inset-0 h-full w-full object-cover mix-blend-color-dodge opacity-50 select-none pointer-events-none"
-        src="/chatbase-assets/grain.2yo71lp6k8fnp.webp"
-        loading="lazy"
-      />
+    <div aria-hidden="true" class="-z-10 pointer-events-none absolute inset-0 bg-brand">
     </div>
 
     <!-- White Content Box -->
-    <div class="relative z-10 mx-auto max-w-[1240px] bg-white border-t lg:border-x border-b border-[#e4e4e7]">
+    <div class="relative z-10 mx-auto max-w-[1240px] bg-white border-t lg:border-x border-b border-line">
       <!-- Diamond lattice divider row (aligns exactly with the start of the footer) -->
-      <div class="border-b border-[#e4e4e7]">
-        <svg aria-hidden="true" width="100%" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-6 w-full text-[#e4e4e7]">
+      <div class="border-b border-line">
+        <svg aria-hidden="true" width="100%" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-6 w-full text-line">
           <title>Diamond row divider</title>
           <defs>
             <pattern id="diamond-row-divider" width="23.3725" height="24" patternUnits="userSpaceOnUse">
@@ -30,49 +27,65 @@ import { Icon } from 'astro-icon/components';
         </svg>
       </div>
 
-      <div class="px-6 py-12 sm:px-12 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-6">
-        
-        <!-- Brand Info -->
-        <div class="flex flex-col items-center sm:items-start gap-2">
-          <a href="/" class="group flex items-center gap-2.5 text-[#09090b]" aria-label="pitaj.io početna">
-            <svg class="h-6 w-6 rounded-md shrink-0 shadow-xs" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
-              <rect width="28" height="28" rx="6" fill="#09090b"/>
-              <path fill="#fff" fill-rule="evenodd" d="M6.1 23V5H15.8 C19.4 5 21.6 7.2 21.6 10.6 C21.6 14 19.4 16.2 15.8 16.2 H11V23H6.1Z M11 9.1V12.2H15.4 C16.6 12.2 17.3 11.6 17.3 10.6 C17.3 9.6 16.6 9.1 15.4 9.1H11Z"/>
-            </svg>
-            <span class="text-[18px] font-semibold tracking-tight text-[#09090b]">pitaj<span class="text-[#71717a] font-normal">.io</span></span>
-          </a>
-          <p class="text-[13px] text-[#71717a] text-center sm:text-left">
-            Platforma za pametne AI agente u korisničkoj podršci i prodaji.
-          </p>
-        </div>
-
-        <!-- Navigation Links in Footer -->
-        <div class="flex flex-wrap items-center justify-center gap-5 text-[13px] font-medium text-[#71717a]">
-          <a href="https://docs.pitaj.io" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-[#09090b]">
-            Dokumentacija
-          </a>
-          <a href="https://changelog.pitaj.io" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-[#09090b] inline-flex items-center gap-1.5">
-            <span>Changelog</span>
-            <span class="rounded-full bg-[#f4f4f5] border border-[#e4e4e7] px-1.5 py-0.2 text-[10px] font-semibold text-[#52525b]">Beta</span>
-          </a>
-          <a href="https://app.pitaj.io" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-[#09090b]">
-            Dashboard
-          </a>
-        </div>
-
-        <!-- Social Icons & Legal -->
-        <div class="flex flex-col items-center sm:items-end gap-3">
-          <div class="flex items-center gap-4 text-[#71717a]">
-            <!-- Instagram -->
-            <a href="https://www.instagram.com/pitajio" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-[#09090b]" aria-label="Instagram">
-              <Icon name="simple-icons:instagram" class="h-4 w-4" />
+      <div class="px-6 py-12 sm:px-12 lg:px-16">
+        <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_1fr_1fr]">
+          <!-- Brend -->
+          <div class="flex flex-col items-start gap-3">
+            <a href="/" class="group flex items-center gap-2.5 text-ink" aria-label="pitaj.io početna">
+              <svg class="h-6 w-6 shrink-0 rounded-md shadow-xs" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="28" height="28" rx="6" fill="currentColor" class="text-ink"/>
+                <path fill="#fff" fill-rule="evenodd" d="M6.1 23V5H15.8 C19.4 5 21.6 7.2 21.6 10.6 C21.6 14 19.4 16.2 15.8 16.2 H11V23H6.1Z M11 9.1V12.2H15.4 C16.6 12.2 17.3 11.6 17.3 10.6 C17.3 9.6 16.6 9.1 15.4 9.1H11Z"/>
+              </svg>
+              <span class="text-[18px] font-semibold tracking-tight text-ink">pitaj<span class="font-normal text-subtle">.io</span></span>
             </a>
+            <p class="max-w-[34ch] text-[14px] leading-snug text-muted">
+              Platforma za pametne AI agente u korisničkoj podršci i prodaji.
+            </p>
           </div>
-          <div class="text-[12px] text-[#a1a1aa]">
-            © 2026 Pitaj.io d.o.o. Sva prava zadržana. EU serveri.
+
+          <!-- Poveznice -->
+          <nav aria-label="Poveznice u podnožju">
+            <h2 class="text-[13px] font-semibold text-ink">Resursi</h2>
+            <ul class="mt-2 flex flex-col text-[14px] text-muted">
+              <li>
+                <a href="https://docs.pitaj.io" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-9 items-center transition-colors hover:text-ink">
+                  Dokumentacija<span class="sr-only"> (otvara se u novoj kartici)</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://changelog.pitaj.io" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-9 items-center gap-2 transition-colors hover:text-ink">
+                  <span>Changelog</span>
+                  <span class="rounded-full border border-line bg-wash px-2 py-0.5 text-[11px] font-semibold leading-none text-muted">Beta</span>
+                  <span class="sr-only">(otvara se u novoj kartici)</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://app.pitaj.io" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-9 items-center transition-colors hover:text-ink">
+                  Dashboard<span class="sr-only"> (otvara se u novoj kartici)</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Društvene mreže -->
+          <div>
+            <h2 class="text-[13px] font-semibold text-ink">Pratite nas</h2>
+            <ul class="mt-2 flex flex-col text-[14px] text-muted">
+              <li>
+                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-9 items-center gap-2.5 transition-colors hover:text-ink">
+                  <Icon name="simple-icons:instagram" class="h-4 w-4" aria-hidden="true" />
+                  <span>Instagram<span class="sr-only"> (otvara se u novoj kartici)</span></span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
+        <!-- Pravno -->
+        <div class="mt-10 flex flex-col gap-x-6 gap-y-1 border-t border-line pt-6 text-[13px] text-subtle sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 Pitaj.io d.o.o. Sva prava zadržana. EU serveri.</p>
+          <button type="button" data-consent-reset class="inline-flex min-h-9 cursor-pointer items-center self-start text-[13px] text-subtle underline underline-offset-2 transition-colors hover:text-ink sm:self-auto">Postavke privatnosti</button>
+        </div>
       </div>
     </div>
 
@@ -83,28 +96,7 @@ import { Icon } from 'astro-icon/components';
         <img
           alt="PITAJ.IO"
           class="pointer-events-none absolute -bottom-[5%] left-1/2 -translate-x-1/2 w-[99%] max-w-none select-none"
-          src="/chatbase-assets/pitaj-wordmark.svg"
-          loading="lazy"
-        />
-        <img
-          alt="GDPR usklađeno"
-          class="absolute drop-shadow-md transition-transform duration-300 hover:scale-105"
-          style="left: -2px; bottom: 35%; width: 112px; height: 112px;"
-          src="/chatbase-assets/badge-gdpr.0mwhtxr8zcwlz.webp"
-          loading="lazy"
-        />
-        <img
-          alt="AICPA SOC 2 Type II certifikat"
-          class="absolute drop-shadow-md transition-transform duration-300 hover:scale-105"
-          style="left: 139px; bottom: 30%; width: 112px; height: 112px;"
-          src="/chatbase-assets/badge-soc2.0nzdz4e2zqxf5.webp"
-          loading="lazy"
-        />
-        <img
-          alt="Sigurnost & HIPAA usklađeno"
-          class="absolute drop-shadow-md transition-transform duration-300 hover:scale-105"
-          style="right: 79px; bottom: 35%; width: 112px; height: 112px;"
-          src="/chatbase-assets/badge-hipaa.262e6npya536m.webp"
+          src="/brand/pitaj-wordmark.svg"
           loading="lazy"
         />
       </div>
@@ -114,28 +106,7 @@ import { Icon } from 'astro-icon/components';
         <img
           alt="PITAJ.IO"
           class="pointer-events-none absolute -bottom-[5%] left-1/2 -translate-x-1/2 w-[110%] max-w-none select-none"
-          src="/chatbase-assets/pitaj-wordmark.svg"
-          loading="lazy"
-        />
-        <img
-          alt="GDPR"
-          class="absolute"
-          style="left: 20px; bottom: 20px; width: 56px; height: 56px;"
-          src="/chatbase-assets/badge-gdpr.0mwhtxr8zcwlz.webp"
-          loading="lazy"
-        />
-        <img
-          alt="SOC 2"
-          class="absolute"
-          style="left: 88px; bottom: 28px; width: 56px; height: 56px;"
-          src="/chatbase-assets/badge-soc2.0nzdz4e2zqxf5.webp"
-          loading="lazy"
-        />
-        <img
-          alt="HIPAA"
-          class="absolute"
-          style="right: 25px; bottom: 24px; width: 56px; height: 56px;"
-          src="/chatbase-assets/badge-hipaa.262e6npya536m.webp"
+          src="/brand/pitaj-wordmark.svg"
           loading="lazy"
         />
       </div>

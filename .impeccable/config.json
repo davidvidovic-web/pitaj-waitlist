@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "geist",
+        "createdAt": "2026-11-17T10:36:20.798Z",
+        "reason": "user confirmed: zadržati Geist; identitet daju Proza Display italic naglasci"
+      }
+    ]
+  }
+}

@@ -2,26 +2,26 @@
 ---
 
 <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md transition-all">
-  <nav aria-label="Glavna navigacija" class="mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between px-6 border-b border-[#e4e4e7] lg:border-x">
+  <nav aria-label="Glavna navigacija" class="mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between px-6 border-b border-line lg:border-x">
     <!-- Brand Logo -->
     <div class="flex items-center gap-4">
-      <a href="/" class="group flex items-center gap-2.5 text-[#09090b] transition-opacity hover:opacity-90" aria-label="pitaj.io početna">
+      <a href="/" class="group flex items-center gap-2.5 text-ink transition-opacity hover:opacity-90" aria-label="pitaj.io početna">
         <svg class="h-6 w-6 rounded-md shrink-0 shadow-xs" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
-          <rect width="28" height="28" rx="6" fill="#09090b"/>
+          <rect width="28" height="28" rx="6" fill="currentColor" class="text-ink"/>
           <path fill="#fff" fill-rule="evenodd" d="M6.1 23V5H15.8 C19.4 5 21.6 7.2 21.6 10.6 C21.6 14 19.4 16.2 15.8 16.2 H11V23H6.1Z M11 9.1V12.2H15.4 C16.6 12.2 17.3 11.6 17.3 10.6 C17.3 9.6 16.6 9.1 15.4 9.1H11Z"/>
         </svg>
-        <span class="text-[19px] font-semibold tracking-tight text-[#09090b]">pitaj<span class="text-[#71717a] font-normal">.io</span></span>
+        <span class="text-[19px] font-semibold tracking-tight text-ink">pitaj<span class="text-subtle font-normal">.io</span></span>
       </a>
     </div>
 
     <!-- Center Navigation Links -->
-    <div class="hidden sm:flex items-center gap-6 text-[13px] font-medium text-[#71717a]">
-      <a href="https://docs.pitaj.io" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-[#09090b]">
+    <div class="hidden sm:flex items-center gap-6 text-[13px] font-medium text-subtle">
+      <a href="https://docs.pitaj.io" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-ink">
         Dokumentacija
       </a>
-      <a href="https://changelog.pitaj.io" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-[#09090b] inline-flex items-center gap-1.5">
+      <a href="https://changelog.pitaj.io" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-ink inline-flex items-center gap-1.5">
         <span>Changelog</span>
-        <span class="rounded-full bg-[#f4f4f5] border border-[#e4e4e7] px-1.5 py-0.5 text-[10px] font-semibold text-[#52525b]">Beta</span>
+        <span class="rounded-full bg-wash border border-line px-1.5 py-0.5 text-[11px] font-semibold text-muted">Beta</span>
       </a>
     </div>
 
@@ -29,9 +29,9 @@
     <div class="flex items-center gap-3">
       <a 
         href="#waitlist-form" 
-        class="inline-flex items-center justify-center gap-2 rounded-lg bg-[#09090b] px-4 py-2 text-[13px] font-medium text-white shadow-xs transition-all hover:bg-[#27272a] active:scale-[0.98]"
+        class="inline-flex items-center justify-center gap-2 min-h-10 rounded-lg bg-ink px-4 py-2 text-[13px] font-medium text-white shadow-xs transition-all hover:bg-ink-soft active:scale-[0.98]"
       >
-        <span>Zatraži demo</span>
+        <span>Zatraži rani pristup</span>
         <svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>

@@ -37,16 +37,16 @@ const features = [
 ---
 
 <section class="reveal-on-scroll w-full bg-white">
-  <div class="mx-auto max-w-[1240px] px-6 py-16 lg:border-x lg:border-b border-[#e4e4e7] lg:px-16 lg:py-24">
+  <div class="mx-auto max-w-[1240px] px-6 py-16 lg:border-x lg:border-b border-line lg:px-16 lg:py-24">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
       
       <!-- Top-Left Grid Cell: Header & CTA (Row 1, Col 1) -->
       <div class="flex flex-col justify-between py-1 sm:py-2 pr-2 lg:pr-6">
         <div>
-          <h2 class="text-balance text-[1.85rem] sm:text-[2.1rem] lg:text-[2.25rem] font-medium leading-[1.15] tracking-[-0.03em] text-[#09090b]">
+          <h2 class="text-balance text-[1.85rem] sm:text-[2.1rem] lg:text-[2.25rem] font-medium leading-[1.15] tracking-[-0.03em] text-ink">
             Sve što vam je potrebno za <span class="font-proza italic font-normal">potpunu automatizaciju</span> komunikacije
           </h2>
-          <p class="mt-4 text-[15px] sm:text-[16px] leading-[1.55] text-[#52525b]">
+          <p class="mt-4 text-[15px] sm:text-[16px] leading-[1.55] text-muted">
             Tehnološki temelj za brzu, tačnu i dosljednu komunikaciju sa kupcima na svim vašim kanalima.
           </p>
         </div>
@@ -54,9 +54,9 @@ const features = [
         <div class="mt-8 lg:mt-6">
           <a
             href="#waitlist-form"
-            class="group inline-flex items-center gap-2 text-[15px] font-semibold text-[#162ea8] hover:text-[#122485] transition-colors"
+            class="group inline-flex min-h-10 items-center gap-2 text-[15px] font-semibold text-brand hover:text-brand-deep transition-colors"
           >
-            <span>Pridruži se listi čekanja</span>
+            <span>Zatraži rani pristup</span>
             <svg
               class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
               viewBox="0 0 16 16"
@@ -73,9 +73,9 @@ const features = [
       <!-- Feature Cards (Cells 2 to 6) -->
       {features.map((feature) => (
         feature.isHighlight ? (
-          <div class="group flex flex-col justify-between rounded-[20px] bg-[#162ea8] p-7 sm:p-8 min-h-[260px] sm:min-h-[280px] shadow-xs transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+          <div class="group flex flex-col justify-between rounded-[20px] bg-brand p-7 sm:p-8 min-h-[260px] sm:min-h-[280px] shadow-xs transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
             <div>
-              <div class="flex h-11 w-11 items-center justify-center rounded-[14px] bg-white shadow-xs text-[#162ea8]">
+              <div class="flex h-11 w-11 items-center justify-center rounded-[14px] bg-white shadow-xs text-brand">
                 <Icon name={feature.icon} class="h-5 w-5 stroke-2" />
               </div>
             </div>
@@ -89,17 +89,17 @@ const features = [
             </div>
           </div>
         ) : (
-          <div class="group flex flex-col justify-between rounded-[20px] bg-[#f7f5ef] p-7 sm:p-8 min-h-[260px] sm:min-h-[280px] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+          <div class="group flex flex-col justify-between rounded-[20px] bg-paper p-7 sm:p-8 min-h-[260px] sm:min-h-[280px] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
             <div>
-              <div class="flex h-11 w-11 items-center justify-center rounded-[14px] bg-white shadow-xs text-[#162ea8]">
+              <div class="flex h-11 w-11 items-center justify-center rounded-[14px] bg-white shadow-xs text-brand">
                 <Icon name={feature.icon} class="h-5 w-5 stroke-2" />
               </div>
             </div>
             <div class="mt-8">
-              <h3 class="text-[18px] sm:text-[19px] font-semibold tracking-tight text-[#09090b]">
+              <h3 class="text-[18px] sm:text-[19px] font-semibold tracking-tight text-ink">
                 {feature.title}
               </h3>
-              <p class="mt-2.5 text-[14px] sm:text-[14.5px] leading-relaxed text-[#52525b]">
+              <p class="mt-2.5 text-[14px] sm:text-[14.5px] leading-relaxed text-muted">
                 {feature.description}
               </p>
             </div>

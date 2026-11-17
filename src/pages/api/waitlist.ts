@@ -1,102 +1,95 @@
 import type { APIRoute } from 'astro';
-import { createClient } from '@libsql/client/web';
+import { PUBLIC_COUNT_THRESHOLD, ensureWaitlistTable, getDb } from '../../lib/waitlist-db';
 
 export const prerender = false;
 
-// Email validation helper
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const SOURCES = new Set(['hero', 'bottom', 'waitlist']);
+const MAX_EMAIL_LENGTH = 254;
+const RATE_LIMIT = { max: 5, windowMs: 60_000 };
+const attempts = new Map<string, number[]>();
+
+function json(body: Record<string, unknown>, status = 200, headers: Record<string, string> = {}): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', ...headers },
+  });
 }
 
-const DEFAULT_TURSO_URL = 'libsql://pitajio-waitlist-davidvidovic-web.aws-eu-west-1.turso.io';
+function isValidEmail(email: string): boolean {
+  return email.length <= MAX_EMAIL_LENGTH && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
-export const POST: APIRoute = async ({ request }) => {
+/** Ograničenje po IP adresi u memoriji instance; štiti od jednostavnog zloupotrebljavanja, ne od distribuiranog napada. */
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (attempts.get(ip) ?? []).filter((time) => now - time < RATE_LIMIT.windowMs);
+  recent.push(now);
+  attempts.set(ip, recent);
+  if (attempts.size > 5000) {
+    for (const [key, times] of attempts) {
+      if (times.every((time) => now - time >= RATE_LIMIT.windowMs)) attempts.delete(key);
+    }
+  }
+  return recent.length > RATE_LIMIT.max;
+}
+
+/** Broj prijava za javni prikaz; null kad baza nije dostupna ili je broj ispod praga. */
+export const GET: APIRoute = async () => {
+  const cacheHeaders = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' };
   try {
-    const body = await request.json().catch(() => null);
+    const db = getDb();
+    if (!db) return json({ count: null }, 200, cacheHeaders);
+    await ensureWaitlistTable(db);
+    const result = await db.execute('SELECT COUNT(*) AS cnt FROM waitlist');
+    const count = Number(result.rows[0]?.cnt ?? 0);
+    return json({ count: count >= PUBLIC_COUNT_THRESHOLD ? count : null }, 200, cacheHeaders);
+  } catch {
+    return json({ count: null }, 200, { 'Cache-Control': 'no-store' });
+  }
+};
 
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  try {
+    if (isRateLimited(clientAddress || request.headers.get('x-forwarded-for') || 'unknown')) {
+      return json({ success: false, error: 'Previše pokušaja. Pokušajte ponovo za minutu.' }, 429, { 'Retry-After': '60' });
+    }
+
+    const body = await request.json().catch(() => null);
     if (!body || typeof body !== 'object') {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Neispravan format zahtjeva.' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
+      return json({ success: false, error: 'Neispravan format zahtjeva.' }, 400);
+    }
+
+    // Skriveno polje koje ljudi ne popunjavaju; botovi dobivaju isti odgovor kao uspjeh.
+    if (typeof body.website === 'string' && body.website.trim() !== '') {
+      return json({ success: true });
     }
 
     const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
-    const source = typeof body.source === 'string' ? body.source.trim() : 'waitlist';
+    const source = typeof body.source === 'string' && SOURCES.has(body.source) ? body.source : 'waitlist';
 
     if (!email || !isValidEmail(email)) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Molimo unesite ispravnu e-mail adresu.' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
+      return json({ success: false, error: 'Molimo unesite ispravnu e-mail adresu.' }, 400);
     }
 
-    // Load Turso credentials from environment
-    const url = import.meta.env.TURSO_DATABASE_URL || process.env.TURSO_DATABASE_URL || DEFAULT_TURSO_URL;
-    const authToken = import.meta.env.TURSO_AUTH_TOKEN || process.env.TURSO_AUTH_TOKEN;
-
-    if (!authToken) {
-      console.warn('[Waitlist API] TURSO_AUTH_TOKEN nije postavljen u .env. Prijava je prihvaćena u demo modu.');
-      return new Response(
-        JSON.stringify({
-          success: true,
-          mock: true,
-          message: 'Uspješno ste na listi čekanja (demo mod: dodajte TURSO_AUTH_TOKEN u .env za spremanje u bazu).',
-        }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
-      );
+    const db = getDb();
+    if (!db) {
+      if (import.meta.env.DEV) {
+        return json({ success: true, mock: true });
+      }
+      console.error('[Waitlist API] TURSO_DATABASE_URL / TURSO_AUTH_TOKEN nisu postavljeni.');
+      return json({ success: false, error: 'Prijava trenutno nije dostupna. Pokušajte kasnije.' }, 503);
     }
 
-    const db = createClient({ url, authToken });
-
-    // Ensure the table exists
-    await db.execute(`
-      CREATE TABLE IF NOT EXISTS waitlist (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        email TEXT NOT NULL UNIQUE,
-        source TEXT DEFAULT 'waitlist',
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-
-    // Check if email already exists
-    const existing = await db.execute({
-      sql: `SELECT id FROM waitlist WHERE email = ?`,
-      args: [email],
-    });
-
-    if (existing.rows.length > 0) {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          duplicate: true,
-          error: 'Ova e-mail adresa je već prijavljena za demo.',
-        }),
-        { status: 409, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Insert new subscriber entry
+    await ensureWaitlistTable(db);
+    // Jedan atomski upis; ponovljena prijava istog e-maila je uspjeh i ne otkriva je li adresa već na listi.
     await db.execute({
-      sql: `INSERT INTO waitlist (email, source) VALUES (?, ?)`,
+      sql: 'INSERT INTO waitlist (email, source) VALUES (?, ?) ON CONFLICT(email) DO NOTHING',
       args: [email, source],
     });
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: 'Čestitamo! Vaše mjesto na listi je osigurano.',
-      }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
-  } catch (err: any) {
+    return json({ success: true });
+  } catch (err) {
     console.error('[Waitlist API] Greška pri spremanju u bazu:', err);
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: 'Došlo je do greške prilikom spremanja. Molimo pokušajte ponovo.',
-      }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return json({ success: false, error: 'Došlo je do greške prilikom spremanja. Molimo pokušajte ponovo.' }, 500);
   }
 };

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap');
+@import "@fontsource-variable/geist";
 @import "tailwindcss";
 
 @font-face {
@@ -17,65 +17,31 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Hathama';
-  src: url('/fonts/Hathama-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
-  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'Proza Display', Georgia, serif;
-  --font-display: 'Proza Display', serif;
-  
-  --color-border-subtle-v2: #e4e4e7;
-  --color-border-subtler-v2: #f4f4f5;
-  --color-border-bolder-v2: #27272a;
-  --color-border-mid-v2: #d4d4d8;
-  
-  --color-bg-surface-v2: #ffffff;
-  --color-bg-surface-raised-v2: #ffffff;
-  --color-bg-surface-sunken-v2: #fafafa;
-  --color-bg-brand-subtler-v2: #f4f4f5;
-  --color-bg-brand-hover-v2: #27272a;
-  --color-bg-inverse-v2: #09090b;
-  
-  --color-text-heading-v2: #09090b;
-  --color-text-heading-description-v2: #52525b;
-  --color-text-paragraph-1-v2: #27272a;
-  --color-text-paragraph-2-v2: #3f3f46;
-  --color-text-paragraph-3-v2: #52525b;
-  --color-text-paragraph-4-v2: #71717a;
-  --color-text-paragraph-5-v2: #a1a1aa;
-  --color-text-inverse-v2: #ffffff;
-  
-  --color-pink-lighter-v2: #b0067e;
-  --color-blue-lighter-v2: #2563eb;
-}
+  --font-sans: 'Geist Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-:root {
-  --fontFamilyProza: 'Proza Display', Georgia, serif;
-  --bgSurface: #ffffff;
-  --bgSurfaceRaised: #ffffff;
-  --bgSurfaceSunken: #fafafa;
-  --borderSubtle: #e4e4e7;
-  --borderSubtler: #f4f4f5;
-  --borderMid: #d4d4d8;
-  --borderBolder: #27272a;
-  --textHeading: #09090b;
-  --textParagraph1: #27272a;
-  --textParagraph2: #3f3f46;
-  --textParagraph3: #52525b;
-  --textParagraph4: #71717a;
-  --textParagraph5: #a1a1aa;
-  --textInverse: #ffffff;
+  /* Neutralna skala (tekst, linije, površine) */
+  --color-ink: #09090b;
+  --color-ink-soft: #27272a;
+  --color-ink-mid: #3f3f46;
+  --color-muted: #52525b;
+  --color-subtle: #71717a;
+  --color-line: #e4e4e7;
+  --color-line-strong: #d4d4d8;
+  --color-sunken: #fafafa;
+  --color-wash: #f4f4f5;
+  --color-paper: #f7f5ef;
+
+  /* Brend */
+  --color-brand: #162ea8;
+  --color-brand-deep: #122485;
+  --color-brand-tint: #a8b4e8;
+  --color-night: #0a0f1d;
 }
 
 html {
-  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #09090b;
+  font-family: 'Geist Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--color-ink);
   background-color: #ffffff;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -98,27 +64,12 @@ html {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
-}
-
 .animate-pulse-subtle {
   animation: pulseSubtle 3s ease-in-out infinite;
 }
 
 .animate-chip-rise {
   animation: chipRiseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 35s linear infinite;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
 }
 
 /* Scroll-Driven Animations & Reveal */
@@ -165,9 +116,24 @@ html {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d8;
+  background: var(--color-line-strong);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1aa;
+  background: var(--color-subtle);
+}
+
+/* Focus: vidljiv prsten za tipkovnicu na svim kontrolama */
+@layer base {
+  input, textarea { caret-color: var(--color-brand); }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate-chip-rise,
+  .animate-pulse-subtle { animation: none; }
 }

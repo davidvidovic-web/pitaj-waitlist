@@ -1,0 +1,184 @@
+---
+interface Props {
+  prefix: string;
+  source: 'hero' | 'bottom';
+  placeholder: string;
+  buttonLabel: string;
+  successTitle: string;
+  successText: string;
+  size?: 'lg' | 'md';
+  align?: 'left' | 'center';
+}
+
+const { prefix, source, placeholder, buttonLabel, successTitle, successText, size = 'lg', align = 'left' } = Astro.props;
+const input = size === 'lg' ? 'px-4 py-3.5 text-[15px]' : 'px-4 py-3 text-[14px]';
+const button = size === 'lg' ? 'px-6 py-3.5 text-[15px]' : 'px-6 py-3 text-[14px]';
+---
+
+<div data-waitlist data-source={source} data-label={buttonLabel} class:list={['w-full', align === 'center' && 'text-left']}>
+  <form id={`${prefix}-waitlist-form`} data-form novalidate class="relative flex flex-col items-stretch gap-2.5 sm:flex-row">
+    <div class="relative flex-1">
+      <label for={`${prefix}-email-input`} class="sr-only">Poslovni e-mail</label>
+      <input
+        type="email"
+        name="email"
+        id={`${prefix}-email-input`}
+        data-input
+        required
+        autocomplete="email"
+        inputmode="email"
+        maxlength="254"
+        placeholder={placeholder}
+        aria-describedby={`${prefix}-waitlist-error`}
+        class={`w-full rounded-xl border border-line-strong bg-white ${input} text-ink placeholder-subtle shadow-xs outline-none transition-all focus:border-ink focus:ring-2 focus:ring-ink/10 aria-[invalid=true]:border-red-600`}
+      />
+      <!-- Zamka za botove: ljudi ovo polje ne vide ni ne popunjavaju. -->
+      <div class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+        <label>Web stranica <input type="text" name="website" data-honeypot tabindex="-1" autocomplete="off" /></label>
+      </div>
+    </div>
+    <button
+      type="submit"
+      data-submit
+      class={`inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl bg-ink ${button} font-medium text-white shadow-sm transition-all duration-200 hover:bg-ink-soft hover:shadow-md active:scale-[0.98] disabled:cursor-wait disabled:opacity-70`}
+    >
+      <span data-submit-label>{buttonLabel}</span>
+      <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </button>
+  </form>
+
+  <div data-success role="status" tabindex="-1" class="mt-3 hidden rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-left text-emerald-900 outline-none">
+    <div class="flex items-center gap-2 text-[14px] font-semibold text-emerald-800">
+      <svg class="h-5 w-5 shrink-0 text-emerald-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+      </svg>
+      <span>{successTitle}</span>
+    </div>
+    <p class="mt-1 text-[13px] text-emerald-800">{successText}</p>
+    <button data-reset type="button" class="mt-2 cursor-pointer text-[13px] font-medium text-emerald-900 underline hover:text-emerald-950">
+      Prijavite drugu e-mail adresu
+    </button>
+  </div>
+
+  <div id={`${prefix}-waitlist-error`} data-error role="alert" class="mt-3 hidden rounded-xl border border-red-200 bg-red-50 p-3.5 text-left text-[13px] text-red-800"></div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'pitaj_waitlist_email';
+  const roots = Array.from(document.querySelectorAll<HTMLElement>('[data-waitlist]'));
+
+  const read = (root: HTMLElement) => ({
+    form: root.querySelector<HTMLFormElement>('[data-form]')!,
+    input: root.querySelector<HTMLInputElement>('[data-input]')!,
+    honeypot: root.querySelector<HTMLInputElement>('[data-honeypot]')!,
+    submit: root.querySelector<HTMLButtonElement>('[data-submit]')!,
+    label: root.querySelector<HTMLElement>('[data-submit-label]')!,
+    success: root.querySelector<HTMLElement>('[data-success]')!,
+    error: root.querySelector<HTMLElement>('[data-error]')!,
+    reset: root.querySelector<HTMLButtonElement>('[data-reset]')!,
+  });
+
+  function showError(root: HTMLElement, message: string) {
+    const { error, input } = read(root);
+    error.textContent = message;
+    error.classList.remove('hidden');
+    input.setAttribute('aria-invalid', 'true');
+  }
+
+  function clearError(root: HTMLElement) {
+    const { error, input } = read(root);
+    error.classList.add('hidden');
+    error.textContent = '';
+    input.removeAttribute('aria-invalid');
+  }
+
+  function showSuccess(root: HTMLElement, focus = false) {
+    const { form, success } = read(root);
+    form.classList.add('hidden');
+    success.classList.remove('hidden');
+    if (focus) success.focus();
+  }
+
+  function showForm(root: HTMLElement) {
+    const { form, success, submit, label, input } = read(root);
+    form.classList.remove('hidden');
+    success.classList.add('hidden');
+    submit.disabled = false;
+    label.textContent = root.dataset.label ?? '';
+    input.value = '';
+    clearError(root);
+  }
+
+  function storedEmail(): string | null {
+    try { return localStorage.getItem(STORAGE_KEY); } catch { return null; }
+  }
+
+  roots.forEach((root) => {
+    const { form, input, honeypot, submit, label, reset } = read(root);
+    if (storedEmail()) showSuccess(root);
+
+    input.addEventListener('input', () => clearError(root));
+
+    reset.addEventListener('click', () => {
+      try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
+      roots.forEach(showForm);
+      input.focus();
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = input.value.trim();
+      if (!email || !input.checkValidity()) {
+        showError(root, 'Molimo unesite ispravnu e-mail adresu.');
+        input.focus();
+        return;
+      }
+
+      submit.disabled = true;
+      label.textContent = 'Slanje...';
+      clearError(root);
+
+      try {
+        const response = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source: root.dataset.source, website: honeypot.value }),
+        });
+        const data = await response.json().catch(() => null);
+        if (!response.ok || !data?.success) {
+          throw new Error(data?.error || 'Došlo je do greške prilikom prijave.');
+        }
+
+        const gtag = (window as any).gtag;
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', { event_category: 'waitlist', event_label: root.dataset.source });
+        }
+
+        try { localStorage.setItem(STORAGE_KEY, email); } catch { /* ignore */ }
+        roots.forEach((other) => showSuccess(other, other === root));
+      } catch (err: any) {
+        submit.disabled = false;
+        label.textContent = root.dataset.label ?? '';
+        showError(root, err?.message || 'Došlo je do greške. Molimo pokušajte ponovo.');
+        input.focus();
+      }
+    });
+  });
+
+  // CTA linkovi "#waitlist-form": pomak do forme i fokus na polje (ako je korisnik već prijavljen, samo pomak).
+  document.querySelectorAll<HTMLAnchorElement>('a[href="#waitlist-form"]').forEach((anchor) => {
+    anchor.addEventListener('click', (event) => {
+      event.preventDefault();
+      const target = document.getElementById('waitlist-form');
+      const input = document.getElementById('hero-email-input') as HTMLInputElement | null;
+      if (!target) return;
+      const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 64);
+      window.scrollTo({ top });
+      if (input && !input.closest('form')?.classList.contains('hidden')) {
+        window.setTimeout(() => input.focus({ preventScroll: true }), 300);
+      }
+    });
+  });
+</script>

@@ -28,10 +28,10 @@ npm run preview
 
 - `src/layouts/Layout.astro` — Osnovni layout s meta tagovima, OpenGraph i fontovima
 - `src/components/Header.astro` — Čisti header s logom i brzim CTA gumbom
-- `src/components/HeroWaitlist.astro` — Glavni Hero sa potpisnim videom i interaktivnom waitlist formom
+- `src/components/HeroWaitlist.astro` — Glavni Hero s ilustracijom razgovora i formom za rani pristup (`WaitlistForm.astro`)
 - `src/components/IntegrationBar.astro` — 8 integracija (WooCommerce, Shopify, Meta...) s dual-layer hover efektom
 - `src/components/CoreFeatures.astro` — 3 ključna bento stuba (Omnichannel, Zalihe/Narudžbe, Ljudski ko-pilot)
 - `src/components/EarlyPerks.astro` — Pogodnosti za rane korisnike (-40% popusta, besplatan setup...)
 - `src/components/BottomCta.astro` — Završna forma na dnu stranice
-- `src/components/Footer.astro` — Podnožje s velikim wordmarkom i certifikatima (GDPR, SOC2, HIPAA)
+- `src/components/Footer.astro` — Podnožje s velikim wordmarkom i linkom za postavke privatnosti
 - `src/pages/api/waitlist.ts` — API endpoint za obradu prijava

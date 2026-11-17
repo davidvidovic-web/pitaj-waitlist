@@ -1,0 +1,66 @@
+---
+const GA_ID = 'G-2VRB3H895M';
+---
+
+<div
+  id="consent-banner"
+  role="region"
+  aria-label="Privatnost i kolačići"
+  hidden
+  class="fixed inset-x-0 bottom-0 z-[60] px-4 pb-4 sm:px-6 sm:pb-6"
+>
+  <div class="mx-auto flex max-w-[640px] flex-col gap-4 rounded-2xl border border-line bg-white p-5 shadow-[0_12px_40px_-12px_rgba(9,9,11,0.25)] sm:flex-row sm:items-center">
+    <p class="text-[13.5px] leading-snug text-ink-mid sm:flex-1">
+      Koristimo Google Analytics za mjerenje posjeta stranici, ali samo uz vaš pristanak.
+    </p>
+    <div class="flex shrink-0 gap-2.5">
+      <button type="button" data-consent="denied" class="min-h-10 cursor-pointer rounded-lg border border-line-strong bg-white px-4 text-[13.5px] font-medium text-ink transition-colors hover:bg-sunken">Odbij</button>
+      <button type="button" data-consent="granted" class="min-h-10 cursor-pointer rounded-lg bg-ink px-4 text-[13.5px] font-medium text-white transition-colors hover:bg-ink-soft">Prihvati</button>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ GA_ID }}>
+  const KEY = 'pitaj_consent';
+  const banner = document.getElementById('consent-banner');
+
+  function read() {
+    try { return localStorage.getItem(KEY); } catch { return null; }
+  }
+
+  function loadAnalytics() {
+    if (window.__gaLoaded) return;
+    window.__gaLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID);
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(script);
+  }
+
+  function choose(value) {
+    try { localStorage.setItem(KEY, value); } catch { /* ignore */ }
+    banner.hidden = true;
+    if (value === 'granted') loadAnalytics();
+  }
+
+  if (banner) {
+    banner.querySelectorAll('[data-consent]').forEach((button) => {
+      button.addEventListener('click', () => choose(button.dataset.consent));
+    });
+    // Footer: ponovno otvaranje izbora.
+    document.querySelectorAll('[data-consent-reset]').forEach((button) => {
+      button.addEventListener('click', () => {
+        try { localStorage.removeItem(KEY); } catch { /* ignore */ }
+        banner.hidden = false;
+        banner.querySelector('button')?.focus();
+      });
+    });
+    const saved = read();
+    if (saved === 'granted') loadAnalytics();
+    else if (saved !== 'denied') banner.hidden = false;
+  }
+</script>

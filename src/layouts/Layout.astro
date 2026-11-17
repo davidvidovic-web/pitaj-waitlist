@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -9,30 +10,23 @@ interface Props {
 }
 
 const {
-  title = 'Lista čekanja - Pitaj.io',
-  description = 'Osigurajte rani pristup vodećoj regionalnoj platformi za AI agente. Automatizirajte odgovore, provjeru narudžbi i prodaju na webu, WhatsAppu i društvenim mrežama.'
+  title = 'Rani pristup | Pitaj.io',
+  description = 'Zatražite rani pristup i demo platforme za AI agente. Automatizirajte odgovore kupcima, provjeru narudžbi i prodaju na webu, WhatsAppu i društvenim mrežama.'
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="bs">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2VRB3H895M"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-2VRB3H895M');
-    </script>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/ProzaDisplay-BoldItalic.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="pitaj.io" />
+    <meta name="theme-color" content="#09090b" />
+    <link rel="canonical" href="https://pitaj.io/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -40,18 +34,25 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="pitaj.io" />
+    <meta property="og:locale" content="bs_BA" />
+    <meta property="og:image" content="https://pitaj.io/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Pitaj.io: pametni AI agenti koji poznaju vaš biznis. Rani pristup." />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://pitaj.io/og.png" />
   </head>
-  <body class="min-h-screen bg-white text-[#09090b] antialiased selection:bg-[#09090b] selection:text-white">
+  <body class="min-h-screen bg-white text-ink antialiased selection:bg-ink selection:text-white">
     <Header />
     <main>
       <slot />
     </main>
     <Footer />
+    <ConsentBanner />
 
     <script>
       // Progressive enhancement for scroll reveal
