@@ -33,6 +33,24 @@ function isRateLimited(ip: string): boolean {
   return recent.length > RATE_LIMIT.max;
 }
 
+/** Traži od Pitaj API-ja da pošalje potvrdu prijave (server-server, dijeljena tajna). Bez postavljene tajne ne radi ništa. */
+async function sendConfirmation(email: string): Promise<void> {
+  const secret = import.meta.env.WAITLIST_API_SECRET || process.env.WAITLIST_API_SECRET;
+  if (!secret) return;
+  const base = String(import.meta.env.PITAJ_API_URL || process.env.PITAJ_API_URL || 'https://api.pitaj.io').replace(/\/$/, '');
+  try {
+    const response = await fetch(`${base}/api/public/waitlist-confirmation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Waitlist-Secret': secret },
+      body: JSON.stringify({ email }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!response.ok) console.error('[Waitlist API] Potvrda prijave nije poslana, status', response.status);
+  } catch (err) {
+    console.error('[Waitlist API] Potvrda prijave nije poslana:', err instanceof Error ? err.message : err);
+  }
+}
+
 /** Broj prijava za javni prikaz; null kad baza nije dostupna ili je broj ispod praga. */
 export const GET: APIRoute = async () => {
   const cacheHeaders = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' };
@@ -82,10 +100,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     await ensureWaitlistTable(db);
     // Jedan atomski upis; ponovljena prijava istog e-maila je uspjeh i ne otkriva je li adresa već na listi.
-    await db.execute({
+    const inserted = await db.execute({
       sql: 'INSERT INTO waitlist (email, source) VALUES (?, ?) ON CONFLICT(email) DO NOTHING',
       args: [email, source],
     });
+
+    // Potvrda mailom samo za novu adresu; greška slanja nikad ne ruši prijavu.
+    if (inserted.rowsAffected > 0) {
+      await sendConfirmation(email);
+    }
 
     return json({ success: true });
   } catch (err) {
