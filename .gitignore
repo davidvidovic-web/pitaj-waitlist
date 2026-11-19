@@ -22,3 +22,22 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 .vercel
+
+# --- Tajne, izvozi i alati koji ne smiju u repo (a time ni na produkciju) ---
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+/*.sql
+/*.dump
+/*.sqlite
+/*.zip
+*.log
+.vercel
+.claude/
+test-results/
+playwright-report/
+coverage/
+*.tsbuildinfo
+.taste-skill/
