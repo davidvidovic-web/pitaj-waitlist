@@ -21,11 +21,7 @@ const channels = [
     name: 'Slack',
     description: 'Obavijesti o novim upitima, internim eskalacijama i 1-klik preuzimanje razgovora unutar vašeg tima.',
     icon: 'slack',
-  },
-  {
-    name: 'Telegram',
-    description: 'Brz i pouzdan kanal za direktnu komunikaciju sa kupcima i automatsko slanje statusa narudžbi.',
-    icon: 'telegram',
+    status: 'Uskoro',
   },
   {
     name: 'Messenger',
@@ -34,8 +30,9 @@ const channels = [
   },
   {
     name: 'Shopify',
-    description: 'Automatska provjera stanja zaliha, statusa pošiljki i preporuke proizvoda direktno u razgovoru.',
+    description: 'Aplikacija je u pripremi; chat widget možete ručno ugraditi u Shopify temu.',
     icon: 'shopify',
+    status: 'Uskoro',
   },
   {
     name: 'WooCommerce',
@@ -76,7 +73,7 @@ const channels = [
           </div>
           <div class="min-w-0 flex-1">
             <h3 class="text-[16px] font-semibold text-ink tracking-tight">
-              {channel.name}
+              {channel.name} <span class="ml-2 text-[12px] font-medium text-muted">{channel.status ?? 'Dostupno'}</span>
             </h3>
             <p class="mt-1.5 text-[14px] leading-relaxed text-muted">
               {channel.description}

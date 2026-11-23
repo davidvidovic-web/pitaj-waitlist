@@ -24,15 +24,16 @@ import WaitlistForm from './WaitlistForm.astro';
           Povežite web sajt, web trgovinu i dokumente. Pitaj.io agenti odgovaraju na upite kupaca 24/7 na webu, WhatsAppu i Instagramu, provjeravaju narudžbe i povećavaju prodaju.
         </p>
 
-        <!-- Waitlist Signup Form Component -->
+        <div class="mt-8 flex flex-wrap gap-3"><a href="https://app.pitaj.io/register" class="rounded-lg bg-ink px-5 py-3 font-medium text-white">Počnite besplatno</a><a href="#demo" class="rounded-lg border border-line px-5 py-3 font-medium text-ink">Zakažite demo</a></div>
+        <!-- Demo request form -->
         <div class="mt-8 w-full max-w-[520px]">
           <WaitlistForm
             prefix="hero"
             source="hero"
             placeholder="Vaš poslovni e-mail"
-            buttonLabel="Zatraži rani pristup"
+            buttonLabel="Zakažite demo"
             successTitle="Prijava je zaprimljena."
-            successText="Javit ćemo vam se e-mailom s terminom demo prezentacije i detaljima ranog pristupa."
+            successText="Javit ćemo vam se e-mailom radi dogovora demo prezentacije."
           />
 
           <!-- Link to Perks Section -->
@@ -41,7 +42,7 @@ import WaitlistForm from './WaitlistForm.astro';
               href="#pogodnosti"
               class="group inline-flex min-h-8 items-center gap-1.5 text-[13.5px] font-medium text-subtle hover:text-brand transition-colors"
             >
-              <span>Pogledajte pogodnosti ranog pristupa</span>
+              <span>Pogledajte pogodnosti za beta korisnike</span>
               <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>

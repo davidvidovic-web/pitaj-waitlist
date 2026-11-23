@@ -26,11 +26,11 @@ const {
     <meta name="description" content={description} />
     <meta name="author" content="pitaj.io" />
     <meta name="theme-color" content="#09090b" />
-    <link rel="canonical" href="https://pitaj.io/" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, "https://pitaj.io").href} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://pitaj.io/" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, "https://pitaj.io").href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="pitaj.io" />

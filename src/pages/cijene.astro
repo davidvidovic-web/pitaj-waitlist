@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+const plans = [
+  { name: 'Besplatno', messages: '50', monthly: '0 KM', annual: '0 KM', eur: '0 €', annualEur: '0 €' },
+  { name: 'Starter', messages: '1.000', monthly: '49 KM', annual: '39 KM', eur: '≈ 25,05 €', annualEur: '≈ 19,94 €' },
+  { name: 'Standard', messages: '4.000', monthly: '99 KM', annual: '79 KM', eur: '≈ 50,62 €', annualEur: '≈ 40,39 €' },
+  { name: 'Biznis', messages: '15.000', monthly: '199 KM', annual: '159 KM', eur: '≈ 101,75 €', annualEur: '≈ 81,30 €' },
+];
+---
+<Layout title="Cijene i paketi | Pitaj.io" description="Pregled Pitaj.io paketa i cijena.">
+  <section class="mx-auto max-w-[1240px] px-6 py-16 lg:border-x border-line lg:px-16">
+    <h1 class="text-4xl font-medium tracking-tight text-ink">Cijene i paketi</h1>
+    <p class="mt-5 max-w-3xl leading-relaxed text-muted">Pitaj.io je u beta fazi i trenutno se ništa ne naplaćuje. Cijene ispod važe kada naplata počne; o tome ćete biti obaviješteni unaprijed.</p>
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {plans.map((plan) => <article class="rounded-2xl border border-line p-6"><h2 class="text-xl font-semibold">{plan.name}</h2><p class="mt-5 text-2xl font-semibold">{plan.monthly} <span class="text-sm font-normal text-muted">/ mjesečno</span></p><p class="mt-1 text-sm text-muted">{plan.eur} / mjesečno</p><p class="mt-4 text-sm text-muted">Godišnje plaćanje: {plan.annual} ({plan.annualEur}) mjesečno</p><p class="mt-4 text-sm text-muted">{plan.messages} poruka mjesečno</p></article>)}
+    </div>
+    <p class="mt-6 text-sm leading-relaxed text-muted">Iznosi u eurima su informativni preračun po fiksnom kursu 1 € = 1,95583 KM, zaokružen na dvije decimale. Godišnja cijena je mjesečni iznos pri godišnjem plaćanju. Enterprise je po dogovoru. Za detalje i limite pogledajte <a class="underline" href="https://docs.pitaj.io/billing/credits-and-plans/">dokumentaciju</a>.</p>
+    <div class="mt-8 flex flex-wrap gap-3"><a class="rounded-lg bg-ink px-5 py-3 font-medium text-white" href="https://app.pitaj.io/register">Počnite besplatno</a><a class="rounded-lg border border-line px-5 py-3 font-medium" href="/#demo">Zakažite demo</a></div>
+  </section>
+</Layout>
